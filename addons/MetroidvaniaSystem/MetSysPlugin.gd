@@ -49,9 +49,9 @@ func _enter_tree() -> void:
 		
 		add_autoload_singleton("MetSys", "res://addons/MetroidvaniaSystem/Nodes/Singleton.tscn")
 		ProjectSettings.save()
-		OS.set_restart_on_exit(true, ["-e"])
-		get_tree().quit()
-		return
+		# OS.set_restart_on_exit(true, ["-e"])
+		# get_tree().quit()
+		# return
 	else:
 		if FileAccess.file_exists("user://MetSysFail"):
 			DirAccess.remove_absolute("user://MetSysFail")
