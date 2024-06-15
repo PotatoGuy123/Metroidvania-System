@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var max_health = 100
 var health
 
+var damage: int = 50
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -450.0
 
@@ -68,10 +70,14 @@ func _physics_process(delta: float) -> void:
 		$Sprite2D.flip_h = false
 	elif velocity.x < -1:
 		$Sprite2D.flip_h = true
+	if Input.is_action_just_pressed("die"):
+		take_damage(damage)
+		
 
 func kill():
 	# Player dies, reset the position to the entrance.
 	position = reset_position
+	health = max_health
 	Game.get_singleton().load_room(MetSys.get_current_room_name())
 
 func on_enter():
@@ -82,6 +88,8 @@ func on_enter():
 func take_damage(damage):
 	health -= damage
 	update_health_text()
+	if health <= 0:
+		kill()
 
 func update_health_text():
 	health_text.text = str(health) + "/" + str(max_health)
