@@ -1,6 +1,9 @@
 # This script is based on the default CharacterBody2D template. Not much interesting happening here.
 extends CharacterBody2D
 
+@export var max_health = 100
+var health
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -450.0
 
@@ -15,8 +18,11 @@ var abilities: Array[StringName]
 var double_jump: bool
 var prev_on_floor: bool
 
+@onready var health_text : Label = %HealthText
+
 func _ready() -> void:
 	on_enter()
+	health = max_health
 
 func _physics_process(delta: float) -> void:
 	if event:
@@ -71,3 +77,11 @@ func kill():
 func on_enter():
 	# Position for kill system. Assigned when entering new room (see Game.gd).
 	reset_position = position
+	update_health_text()
+
+func take_damage(damage):
+	health -= damage
+	update_health_text()
+
+func update_health_text():
+	health_text.text = str(health) + "/" + str(max_health)

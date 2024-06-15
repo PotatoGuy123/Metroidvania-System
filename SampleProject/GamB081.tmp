@@ -187,7 +187,6 @@ text = "0"
 vertical_alignment = 1
 
 [node name="HealthText" type="Label" parent="UI"]
-unique_name_in_owner = true
 offset_left = 12.0
 offset_top = 43.0
 offset_right = 84.0
