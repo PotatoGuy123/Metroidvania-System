@@ -72,6 +72,7 @@ func _physics_process(delta: float) -> void:
 		$Sprite2D.flip_h = true
 	if Input.is_action_just_pressed("die"):
 		take_damage(damage)
+		
 
 func kill():
 	# Player dies, reset the position to the entrance.
