@@ -115,3 +115,6 @@ vframes = 2
 libraries = {
 "": SubResource("AnimationLibrary_rqeoy")
 }
+
+[node name="Equipped Weapon" type="Node2D" parent="."]
+position = Vector2(6, 21)
