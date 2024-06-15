@@ -53,7 +53,7 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	# When pressed Up, start moving.
-	if Input.is_action_just_pressed(\"ui_up\"):
+	if Input.is_action_just_pressed(\"up\"):
 		moving = -1 if up else 1
 		player = $Area2D.get_overlapping_bodies().front()
 		player.event = true

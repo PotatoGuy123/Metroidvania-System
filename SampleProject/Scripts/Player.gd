@@ -28,16 +28,16 @@ func _physics_process(delta: float) -> void:
 		# Some simple double jump implementation.
 		double_jump = true
 	
-	if Input.is_action_just_pressed("ui_accept") and (is_on_floor() or double_jump):
+	if Input.is_action_just_pressed("jump") and (is_on_floor() or double_jump):
 		if not is_on_floor():
 			double_jump = false
 		
-		if Input.is_action_pressed("ui_down"):
+		if Input.is_action_pressed("down"):
 			position.y += 8
 		else:
 			velocity.y = JUMP_VELOCITY
 	
-	var direction := Input.get_axis("ui_left", "ui_right")
+	var direction := Input.get_axis("left", "right")
 	if direction:
 		velocity.x = direction * SPEED
 	else:
