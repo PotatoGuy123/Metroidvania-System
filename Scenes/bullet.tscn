@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgap4oc6hxu3f"]
+
+[ext_resource type="Texture2D" uid="uid://bcm78r1gl6tv4" path="res://SampleProject/Sprites/Happy Bullet Fren.png" id="1_2x812"]
+[ext_resource type="Script" path="res://Scenes/bullet.gd" id="1_64cun"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsyuq"]
+radius = 2.0
+height = 10.0
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_64cun")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+rotation = 1.5708
+scale = Vector2(2, 2)
+shape = SubResource("CapsuleShape2D_wsyuq")
+
+[node name="HappyBulletFren" type="Sprite2D" parent="."]
+position = Vector2(2, 1)
+scale = Vector2(2, 2)
+texture = ExtResource("1_2x812")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.66
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

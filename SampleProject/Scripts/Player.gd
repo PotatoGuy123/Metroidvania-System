@@ -4,11 +4,16 @@ extends CharacterBody2D
 @export var max_health = 100
 var health
 
+@onready var load_bullets= preload("res://Scenes/bullet.tscn")
 var damage: int = 50
+var bullet_direction = Vector2()
+@onready var bullet_marker = $Bullet_Exit_Position
+var is_aiming_up = false
+var is_aiming_down = false
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -450.0
-
+var current_direction = "Idle"
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 var animation: String
 
@@ -27,6 +32,8 @@ func _ready() -> void:
 	health = max_health
 
 func _physics_process(delta: float) -> void:
+	check_bullet_direction()
+	print(bullet_direction)
 	if event:
 		return
 	
@@ -68,11 +75,39 @@ func _physics_process(delta: float) -> void:
 	
 	if velocity.x > 1:
 		$Sprite2D.flip_h = false
+		current_direction = "Right"
 	elif velocity.x < -1:
 		$Sprite2D.flip_h = true
+		current_direction = "Left"
 	if Input.is_action_just_pressed("die"):
 		take_damage(damage)
+	if Input.is_action_just_pressed("shoot"):
+		shoot()
 		
+func check_current_aim():
+	var velocity = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	if Input.is_action_pressed("Aim_up"):
+		is_aiming_up = true
+	if Input.is_action_just_released("Aim_up"):
+		is_aiming_up = false
+		
+func check_bullet_direction():
+	if current_direction == "Left":
+		bullet_marker.position = Vector2(-27,10)
+		bullet_direction.x =-1
+	if current_direction == "Right":
+		bullet_marker.position = Vector2(27,10)
+		bullet_direction.x =1
+	
+func shoot():
+	print_debug("bang")
+	var get_bullets = load_bullets.instantiate()
+	if current_direction == "Left":
+		get_bullets.check_direction(bullet_direction.x)
+	if current_direction == "Right":
+		get_bullets.check_direction(bullet_direction.x)
+	get_parent().add_child(get_bullets)
+	get_bullets.position = bullet_marker.global_position
 
 func kill():
 	# Player dies, reset the position to the entrance.
