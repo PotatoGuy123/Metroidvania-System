@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://doae46einc26s"]
+[gd_scene load_steps=7 format=3 uid="uid://doae46einc26s"]
 
 [ext_resource type="TileSet" uid="uid://bwpcg2opya34n" path="res://SampleProject/Resources/Tileset.tres" id="1_1mtk5"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="2_y78dk"]
 [ext_resource type="PackedScene" uid="uid://d0hyimq1tkfa2" path="res://SampleProject/Objects/MapItem.tscn" id="3_j1w80"]
-[ext_resource type="PackedScene" uid="uid://qac8kgff3xrk" path="res://Game/Enemy/Enemy.tscn" id="4_rgra0"]
 
 [sub_resource type="GDScript" id="GDScript_ecs00"]
 resource_name = "TileMap"
@@ -69,8 +68,5 @@ shape = SubResource("RectangleShape2D_j3y4p")
 
 [node name="MapItem" parent="." instance=ExtResource("3_j1w80")]
 position = Vector2(336, 360)
-
-[node name="CharacterBody2D" parent="." instance=ExtResource("4_rgra0")]
-position = Vector2(307, 818)
 
 [connection signal="body_entered" from="Secret" to="Secret" method="on_body_entered"]
