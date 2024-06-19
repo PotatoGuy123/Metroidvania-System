@@ -10,6 +10,7 @@ var bullet_direction = Vector2()
 @onready var bullet_marker = $Bullet_Exit_Position
 var is_aiming_up = false
 var is_aiming_down = false
+var is_aiming = false
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -450.0
@@ -53,7 +54,6 @@ func _physics_process(delta: float) -> void:
 			position.y += 8
 		else:
 			velocity.y = JUMP_VELOCITY
-	
 	var direction := Input.get_axis("left", "right")
 	var vertical_direction := Input.get_axis("up", "down")
 	
@@ -63,7 +63,9 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	if Input.is_action_pressed("Aim"):
+		velocity.x = 0
+		
 	prev_on_floor = is_on_floor()
 	move_and_slide()
 	
