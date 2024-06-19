@@ -25,6 +25,8 @@ var abilities: Array[StringName]
 var double_jump: bool
 var prev_on_floor: bool
 
+var aim_direction : Vector2
+
 @onready var health_text : Label = %HealthText
 
 func _ready() -> void:
@@ -33,7 +35,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	check_bullet_direction()
-	print(bullet_direction)
+	
 	if event:
 		return
 	
@@ -53,6 +55,10 @@ func _physics_process(delta: float) -> void:
 			velocity.y = JUMP_VELOCITY
 	
 	var direction := Input.get_axis("left", "right")
+	var vertical_direction := Input.get_axis("up", "down")
+	
+	aim_direction = Vector2(direction, vertical_direction).normalized()
+	
 	if direction:
 		velocity.x = direction * SPEED
 	else:
@@ -92,20 +98,36 @@ func check_current_aim():
 		is_aiming_up = false
 		
 func check_bullet_direction():
-	if current_direction == "Left":
-		bullet_marker.position = Vector2(-27,10)
-		bullet_direction.x =-1
-	if current_direction == "Right":
-		bullet_marker.position = Vector2(27,10)
-		bullet_direction.x =1
 	
+	if aim_direction != Vector2.ZERO:
+		bullet_direction = aim_direction
+	else:
+		if current_direction == "Left":
+			bullet_marker.position = Vector2(-27,10)
+			bullet_direction.x =-1
+		if current_direction == "Right":
+			bullet_marker.position = Vector2(27,10)
+			bullet_direction.x =1
+	
+	var aim_direction_modifier : Vector2
+	
+	if aim_direction.x == 0:
+		aim_direction_modifier = Vector2(0, 10)
+	elif current_direction == "Right":
+		aim_direction_modifier = Vector2 (27, 10) - aim_direction
+	elif current_direction == "Left":
+		aim_direction_modifier = Vector2 (-27, 10) - aim_direction
+	
+	bullet_marker.position = aim_direction + aim_direction_modifier
+	
+
 func shoot():
 	print_debug("bang")
 	var get_bullets = load_bullets.instantiate()
 	if current_direction == "Left":
-		get_bullets.check_direction(bullet_direction.x)
+		get_bullets.check_direction(bullet_direction)
 	if current_direction == "Right":
-		get_bullets.check_direction(bullet_direction.x)
+		get_bullets.check_direction(bullet_direction)
 	get_parent().add_child(get_bullets)
 	get_bullets.position = bullet_marker.global_position
 

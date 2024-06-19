@@ -1,7 +1,7 @@
 extends Area2D
 @export var bullet_speed = 10
-var bullet_movement = Vector2()
-var bullet_direction = 1
+var bullet_movement : Vector2 = Vector2()
+var bullet_direction : Vector2
 var bullet_life = 0
 
 
@@ -9,11 +9,12 @@ var bullet_life = 0
 func _ready():
 	pass
 
-func check_direction(dir):
+func check_direction(dir : Vector2):
 	bullet_direction = dir
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	bullet_movement.x = bullet_speed * delta * bullet_direction
+	print(bullet_speed * delta * bullet_direction)
+	bullet_movement = bullet_speed * delta * bullet_direction
 	translate(bullet_movement.normalized() * bullet_speed)
 
 
