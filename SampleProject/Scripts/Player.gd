@@ -57,24 +57,24 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("left", "right")
 	var vertical_direction := Input.get_axis("up", "down")
 	
-	aim_direction = Vector2(direction, vertical_direction).normalized()
+	aim_direction = Input.get_vector("left", "right", "up", "down", 0.8)
 	
 	if direction:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-	if Input.is_action_pressed("Aim"):
-		velocity.x = 0
-		
+	
 	prev_on_floor = is_on_floor()
-	move_and_slide()
+	if !Input.is_action_pressed("Aim"):
+		move_and_slide()
+	
 	
 	var new_animation = &"Idle"
 	if velocity.y < 0:
 		new_animation = &"Jump"
 	elif velocity.y >= 0 and not is_on_floor():
 		new_animation = &"Fall"
-	elif absf(velocity.x) > 1:
+	elif absf(velocity.x)  > 1 && !Input.is_action_pressed("Aim"):
 		new_animation = &"Run"
 	
 	if new_animation != animation:
@@ -106,14 +106,14 @@ func check_bullet_direction():
 	else:
 		if current_direction == "Left":
 			bullet_marker.position = Vector2(-27,10)
-			bullet_direction.x =-1
+			bullet_direction = Vector2(-1, 0)
 		if current_direction == "Right":
 			bullet_marker.position = Vector2(27,10)
-			bullet_direction.x =1
+			bullet_direction = Vector2(1, 0)
 	
 	var aim_direction_modifier : Vector2
 	
-	if aim_direction.x == 0:
+	if aim_direction.x <= 0.2 && aim_direction.x >= -0.2:
 		aim_direction_modifier = Vector2(0, 10)
 	elif current_direction == "Right":
 		aim_direction_modifier = Vector2 (27, 10) - aim_direction
@@ -121,6 +121,9 @@ func check_bullet_direction():
 		aim_direction_modifier = Vector2 (-27, 10) - aim_direction
 	
 	bullet_marker.position = aim_direction + aim_direction_modifier
+	
+	
+	print(bullet_direction)
 	
 
 func shoot():
@@ -152,3 +155,5 @@ func take_damage(damage):
 
 func update_health_text():
 	health_text.text = str(health) + "/" + str(max_health)
+
+

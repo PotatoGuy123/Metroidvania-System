@@ -13,7 +13,6 @@ func check_direction(dir : Vector2):
 	bullet_direction = dir
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	print(bullet_speed * delta * bullet_direction)
 	bullet_movement = bullet_speed * delta * bullet_direction
 	translate(bullet_movement.normalized() * bullet_speed)
 
