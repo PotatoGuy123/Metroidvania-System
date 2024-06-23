@@ -108,7 +108,7 @@ func update():
 script = ExtResource("1_xdpfu")
 starting_map = "StartingPoint.tscn"
 
-[node name="Player" parent="." groups=["Player"] instance=ExtResource("2_bam1a")]
+[node name="Player" parent="." instance=ExtResource("2_bam1a")]
 position = Vector2(368, 248)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]

@@ -1,5 +1,6 @@
 extends CharacterBody2D
 signal damage(value)
+var health = 75
 
 @export var move_speed : float = 150
 @export var initial_move_direction : int = 1
@@ -29,3 +30,10 @@ func _on_area_2d_body_entered(body):
 	
 	move_direction *= -1
 	
+func take_damage(value):
+	health -= value
+	if health <= 0:
+		kill()
+
+func kill():
+	queue_free()

@@ -1,5 +1,5 @@
 extends Area2D
-@export var bullet_speed = 10
+@export var bullet_speed = 22
 var bullet_movement : Vector2 = Vector2()
 var bullet_direction : Vector2
 var bullet_life = 0
@@ -25,3 +25,7 @@ func _on_timer_timeout():
 func _on_body_entered(body):
 	if !body.name == "Player":
 		queue_free()
+
+func _on_area_2d_body_entered(body):
+	if body.is_in_group("Enemy"):
+		body.take_damage(15)
