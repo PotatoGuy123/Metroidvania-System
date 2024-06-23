@@ -124,7 +124,6 @@ position = Vector2(20, 13)
 [node name="Bullet_Exit_Parent" type="Marker2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Bullet_Exit_Parent"]
-scale = Vector2(10, 10)
 texture = ExtResource("3_vievi")
 
 [node name="Bullet_Exit_Position" type="Marker2D" parent="Bullet_Exit_Parent"]
