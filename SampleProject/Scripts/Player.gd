@@ -157,7 +157,6 @@ func on_enter():
 	update_health_text()
 
 func take_damage(value):
-	
 	health -= value
 	update_health_text()
 	if health <= 0:
