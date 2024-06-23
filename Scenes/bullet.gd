@@ -28,4 +28,4 @@ func _on_body_entered(body):
 
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("Enemy"):
-		body.take_damage(15)
+		body.take_damage(10)
