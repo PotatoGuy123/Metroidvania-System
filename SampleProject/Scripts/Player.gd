@@ -28,6 +28,8 @@ var prev_on_floor: bool
 
 var aim_direction : Vector2
 
+var can_jump : bool = true
+
 @onready var health_text : Label = %HealthText
 
 func _ready() -> void:
@@ -46,7 +48,7 @@ func _physics_process(delta: float) -> void:
 		# Some simple double jump implementation.
 		double_jump = true
 	
-	if Input.is_action_just_pressed("jump") and (is_on_floor() or double_jump):
+	if Input.is_action_just_pressed("jump") and (is_on_floor() or double_jump) and can_jump:
 		if not is_on_floor():
 			double_jump = false
 		
@@ -64,10 +66,21 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	
-	prev_on_floor = is_on_floor()
-	if !Input.is_action_pressed("Aim"):
-		move_and_slide()
 	
+	
+	prev_on_floor = is_on_floor()
+	
+	var temp_vel_x : float = velocity.x
+	
+	if Input.is_action_pressed("Aim") && is_on_floor():
+		velocity.x = 0
+		can_jump = false
+	elif Input.is_action_just_released("Aim"):
+		can_jump = true
+	
+	move_and_slide()
+	
+	velocity.x = temp_vel_x
 	
 	var new_animation = &"Idle"
 	if velocity.y < 0:
