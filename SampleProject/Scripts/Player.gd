@@ -7,7 +7,8 @@ var health
 @onready var load_bullets= preload("res://Scenes/bullet.tscn")
 var damage: int = 50
 var bullet_direction = Vector2()
-@onready var bullet_marker = $Bullet_Exit_Position
+@onready var bullet_marker = $Bullet_Exit_Parent/Bullet_Exit_Position
+@onready var bullet_marker_parent = $Bullet_Exit_Parent
 var is_aiming_up = false
 var is_aiming_down = false
 var is_aiming = false
@@ -118,22 +119,22 @@ func check_bullet_direction():
 		bullet_direction = aim_direction
 	else:
 		if current_direction == "Left":
-			bullet_marker.position = Vector2(-27,10)
+			bullet_marker_parent.rotation_degrees = 0
 			bullet_direction = Vector2(-1, 0)
 		if current_direction == "Right":
-			bullet_marker.position = Vector2(27,10)
+			bullet_marker_parent.rotation_degrees = 180
 			bullet_direction = Vector2(1, 0)
 	
 	var aim_direction_modifier : Vector2
 	
-	if aim_direction.x <= 0.2 && aim_direction.x >= -0.2:
-		aim_direction_modifier = Vector2(0, 10)
-	elif current_direction == "Right":
-		aim_direction_modifier = Vector2 (27, 10) - aim_direction
-	elif current_direction == "Left":
-		aim_direction_modifier = Vector2 (-27, 10) - aim_direction
+	bullet_marker_parent.rotation = bullet_marker_parent.get_angle_to(aim_direction)
 	
-	bullet_marker.position = aim_direction + aim_direction_modifier
+	
+	
+	print(bullet_marker_parent.rotation_degrees)
+	#bullet_marker.position = aim_direction + aim_direction_modifier
+	
+	
 
 func shoot():
 	var get_bullets = load_bullets.instantiate()
