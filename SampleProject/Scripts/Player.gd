@@ -127,7 +127,6 @@ func check_bullet_direction():
 	
 
 func shoot():
-	print_debug("bang")
 	var get_bullets = load_bullets.instantiate()
 	if current_direction == "Left":
 		get_bullets.check_direction(bullet_direction)
@@ -135,6 +134,7 @@ func shoot():
 		get_bullets.check_direction(bullet_direction)
 	get_parent().add_child(get_bullets)
 	get_bullets.position = bullet_marker.global_position
+	
 
 func kill():
 	# Player dies, reset the position to the entrance.
@@ -147,8 +147,9 @@ func on_enter():
 	reset_position = position
 	update_health_text()
 
-func take_damage(damage):
-	health -= damage
+func take_damage(value):
+	print("hi")
+	health -= value
 	update_health_text()
 	if health <= 0:
 		kill()
@@ -157,3 +158,7 @@ func update_health_text():
 	health_text.text = str(health) + "/" + str(max_health)
 
 
+
+
+func _on_area_2d_body_entered(body):
+	pass # Replace with function body.

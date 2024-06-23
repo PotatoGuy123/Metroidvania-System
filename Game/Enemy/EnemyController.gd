@@ -1,4 +1,5 @@
 extends CharacterBody2D
+signal damage(value)
 
 @export var move_speed : float = 150
 @export var initial_move_direction : int = 1
@@ -22,7 +23,8 @@ func _physics_process(delta):
 
 
 func _on_area_2d_body_entered(body):
-	#if body.is_in_group("Player"):
+	if body.name==("player"):
+		body.take_damage(15)
 	
 	move_direction *= -1
 	
