@@ -121,10 +121,6 @@ func check_bullet_direction():
 		aim_direction_modifier = Vector2 (-27, 10) - aim_direction
 	
 	bullet_marker.position = aim_direction + aim_direction_modifier
-	
-	
-	print(bullet_direction)
-	
 
 func shoot():
 	var get_bullets = load_bullets.instantiate()
@@ -148,7 +144,7 @@ func on_enter():
 	update_health_text()
 
 func take_damage(value):
-	print("hi")
+	
 	health -= value
 	update_health_text()
 	if health <= 0:
