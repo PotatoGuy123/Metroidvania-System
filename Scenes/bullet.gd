@@ -1,4 +1,6 @@
 extends Area2D
+class_name BaseBullet
+
 @export var bullet_speed = 22
 var bullet_movement : Vector2 = Vector2()
 var bullet_direction : Vector2
@@ -7,7 +9,7 @@ var bullet_life = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	$Timer2.start()
 
 func check_direction(dir : Vector2):
 	bullet_direction = dir
@@ -29,3 +31,9 @@ func _on_body_entered(body):
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("Enemy"):
 		body.take_damage(10)
+
+func _get_button_down(shoot):
+	pass
+
+func _on_timer_2_timeout():
+	print("hell")
