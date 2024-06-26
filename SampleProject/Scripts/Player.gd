@@ -119,19 +119,20 @@ func check_bullet_direction():
 		bullet_direction = aim_direction
 	else:
 		if current_direction == "Left":
-			bullet_marker_parent.rotation_degrees = 0
+			bullet_marker_parent.rotation_degrees = 180
 			bullet_direction = Vector2(-1, 0)
 		if current_direction == "Right":
-			bullet_marker_parent.rotation_degrees = 180
+			bullet_marker_parent.rotation_degrees = 0
 			bullet_direction = Vector2(1, 0)
 	
-	var aim_direction_modifier : Vector2
+	var aim_direction_modifier : Vector2 = aim_direction
 	
-	bullet_marker_parent.rotation = bullet_marker_parent.get_angle_to(aim_direction)
+	_look_at_target_interpolated(1)
 	
 	
 	
-	print(bullet_marker_parent.rotation_degrees)
+	
+	
 	#bullet_marker.position = aim_direction + aim_direction_modifier
 	
 	
@@ -166,8 +167,10 @@ func take_damage(value):
 func update_health_text():
 	health_text.text = str(health) + "/" + str(max_health)
 
-
-
+func _look_at_target_interpolated(weight:float) -> void:
+	var xform : Transform2D = bullet_marker_parent.transform # your transform
+	xform = xform.looking_at(aim_direction)
+	bullet_marker_parent.transform = bullet_marker_parent.transform.interpolate_with(xform,weight)
 
 func _on_area_2d_body_entered(body):
 	pass # Replace with function body.
