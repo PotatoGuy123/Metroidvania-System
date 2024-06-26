@@ -1,18 +1,30 @@
 extends "res://Scenes/bullet.gd"
 
+var can_shoot : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Timer2.start()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$Timer2.start()
-	print("I want to die")
 	
-func _get_button_down(shoot):
-	pass
+	
+	if Input.is_action_just_released("shoot"):
+		_shoot()
+
+func _physics_process(delta):
+	if can_shoot:
+		bullet_movement = bullet_speed * delta * bullet_direction
+		translate(bullet_movement.normalized() * bullet_speed)
+	else:
+		position = GlobalManager.player.position
+
+func _shoot():
+	$Timer.start()
+	can_shoot = true
+	print("hooray")
 
 func _on_timer_timeout():
 	print_debug("yippee")
@@ -27,4 +39,4 @@ func _on_area_2d_body_entered(body):
 		body.take_damage(30)
 
 func _on_timer_2_timeout():
-	print("hell")
+	_shoot()

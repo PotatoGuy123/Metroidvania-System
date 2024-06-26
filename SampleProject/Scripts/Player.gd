@@ -5,6 +5,8 @@ extends CharacterBody2D
 var health
 
 @onready var load_bullets= preload("res://Scenes/bullet.tscn")
+@onready var load_charge_bullets = preload("res://Scenes/charge.tscn")
+
 var damage: int = 50
 var bullet_direction = Vector2()
 @onready var bullet_marker = $Bullet_Exit_Position
@@ -35,6 +37,7 @@ var can_jump : bool = true
 func _ready() -> void:
 	on_enter()
 	health = max_health
+	GlobalManager.player = self
 
 func _physics_process(delta: float) -> void:
 	check_bullet_direction()
@@ -136,7 +139,7 @@ func check_bullet_direction():
 	bullet_marker.position = aim_direction + aim_direction_modifier
 
 func shoot():
-	var get_bullets = load_bullets.instantiate()
+	var get_bullets = load_charge_bullets.instantiate()
 	if current_direction == "Left":
 		get_bullets.check_direction(bullet_direction)
 	if current_direction == "Right":

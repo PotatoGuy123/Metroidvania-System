@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 MetSys="*res://addons/MetroidvaniaSystem/Nodes/Singleton.tscn"
+GlobalManager="*res://Game/Global/global_manager.gd"
 
 [debug]
 
