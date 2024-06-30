@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bivakijktfees"]
+[gd_scene load_steps=11 format=3 uid="uid://bivakijktfees"]
 
 [ext_resource type="TileSet" uid="uid://bwpcg2opya34n" path="res://SampleProject/Resources/Tileset.tres" id="1_o8cmo"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="2_blgo0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://SampleProject/Scripts/SavePoint.gd" id="5_5xt7j"]
 [ext_resource type="PackedScene" uid="uid://bcfv4fbhum8i5" path="res://charge_orb.tscn" id="6_7u7vr"]
 [ext_resource type="PackedScene" uid="uid://c8j6i3fx8p758" path="res://SampleProject/Objects/Collectible.tscn" id="7_1w7b6"]
+[ext_resource type="PackedScene" uid="uid://dhjpkp828nytm" path="res://Scenes/ammo.tscn" id="8_xomdo"]
 
 [sub_resource type="GDScript" id="GDScript_7vkwe"]
 script/source = "extends Line2D
@@ -73,3 +74,6 @@ position = Vector2(577, 343)
 
 [node name="Collectible" parent="." instance=ExtResource("7_1w7b6")]
 position = Vector2(323, 341)
+
+[node name="Ammo" parent="." instance=ExtResource("8_xomdo")]
+position = Vector2(519, 282)

@@ -11,4 +11,7 @@ autostart = false
 
 [node name="Timer3" type="Timer" parent="." index="4"]
 
+[node name="Timer2" parent="." index="5"]
+wait_time = 0.001
+
 [connection signal="timeout" from="Timer3" to="." method="_on_timer_2_timeout"]

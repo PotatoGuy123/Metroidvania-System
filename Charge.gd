@@ -1,7 +1,7 @@
 extends "res://Scenes/bullet.gd"
 
 @onready var ammo= preload("res://SampleProject/Player.tscn")
-signal damage(value)
+signal Ammo_change(value)
 
 var can_shoot : bool = false
 
@@ -26,6 +26,7 @@ func _physics_process(delta: float) -> void:
 	if can_shoot:
 		bullet_movement = bullet_speed * delta * bullet_direction
 		translate(bullet_movement.normalized() * bullet_speed)
+		charge_ready = false
 	else:
 		print(GlobalManager.player.get_child(4).get_child(0))
 		position = GlobalManager.player.get_child(4).get_child(0).global_position

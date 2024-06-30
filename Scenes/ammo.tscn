@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhjpkp828nytm"]
+
+[ext_resource type="PackedScene" uid="uid://c8j6i3fx8p758" path="res://SampleProject/Objects/Collectible.tscn" id="1_a1hyc"]
+[ext_resource type="Script" path="res://Ammo.gd" id="2_osov2"]
+
+[node name="Ammo" instance=ExtResource("1_a1hyc")]
+script = ExtResource("2_osov2")
+
+[node name="Sprite2D" parent="." index="1"]
+modulate = Color(0.933333, 0, 0, 1)
