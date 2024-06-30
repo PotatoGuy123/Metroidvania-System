@@ -15,6 +15,14 @@ var is_aiming_up = false
 var is_aiming_down = false
 var is_aiming = false
 
+@export var max_ammo_count = 25
+var ammo_count
+@export var charge_unlocked = true
+
+var threshold_time = 0.2
+var timer = 0
+var action_started = false
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -450.0
 var current_direction = "Idle"
@@ -38,6 +46,7 @@ var can_jump : bool = true
 func _ready() -> void:
 	on_enter()
 	health = max_health
+	ammo_count = max_ammo_count
 	GlobalManager.player = self
 
 func _physics_process(delta: float) -> void:
@@ -106,8 +115,26 @@ func _physics_process(delta: float) -> void:
 		current_direction = "Left"
 	if Input.is_action_just_pressed("die"):
 		take_damage(damage)
+	#if Input.is_action_just_pressed("shoot"):
+		#shoot()
 	if Input.is_action_just_pressed("shoot"):
-		shoot()
+		action_started = true
+		
+	if Input.is_action_pressed("shoot") and action_started:
+		timer += delta
+		
+	if timer >= threshold_time and action_started:
+		action_started = false
+		timer = 0
+		print("hold")
+		charge_shot()
+
+	if Input.is_action_just_released("shoot"):
+		if timer < threshold_time and action_started:
+			print("press")
+			normal_shot()
+		action_started = false
+		timer = 0
 
 func check_current_aim():
 	var velocity = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -131,14 +158,35 @@ func check_bullet_direction():
 	
 	_look_at_target_interpolated(1)
 
-func shoot():
-	var get_bullets = load_charge_bullets.instantiate()
-	if current_direction == "Left":
-		get_bullets.check_direction(bullet_direction)
-	if current_direction == "Right":
-		get_bullets.check_direction(bullet_direction)
-	get_parent().add_child(get_bullets)
-	get_bullets.position = bullet_marker.global_position
+func normal_shot():
+	if ammo_count > 0:
+		var get_bullets = load_bullets.instantiate()
+		if current_direction == "Left":
+			get_bullets.check_direction(bullet_direction)
+		if current_direction == "Right":
+			get_bullets.check_direction(bullet_direction)
+		get_parent().add_child(get_bullets)
+		get_bullets.position = bullet_marker.global_position
+		ammo_count= ammo_count-1
+		print (ammo_count)
+		print("normal shot")
+		
+func charge_shot():
+	if charge_unlocked == true:
+		if ammo_count > 0:
+			var get_bullets = load_charge_bullets.instantiate()
+			if current_direction == "Left":
+				get_bullets.check_direction(bullet_direction)
+			if current_direction == "Right":
+				get_bullets.check_direction(bullet_direction)
+			get_parent().add_child(get_bullets)
+			get_bullets.position = bullet_marker.global_position
+			ammo_count= ammo_count-5
+			print(ammo_count)
+			print("charge fired")
+	
+func melee():
+	pass
 
 func kill():
 	# Player dies, reset the position to the entrance.
