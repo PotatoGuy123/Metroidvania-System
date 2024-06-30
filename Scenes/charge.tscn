@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvhutydolbtq0"]
+
+[ext_resource type="PackedScene" uid="uid://dgap4oc6hxu3f" path="res://Scenes/bullet.tscn" id="1_48rhb"]
+[ext_resource type="Script" path="res://Charge.gd" id="2_62he5"]
+
+[node name="Charge" instance=ExtResource("1_48rhb")]
+script = ExtResource("2_62he5")
+
+[node name="Timer" parent="." index="2"]
+autostart = false
+
+[node name="Timer3" type="Timer" parent="." index="4"]
+
+[connection signal="timeout" from="Timer3" to="." method="_on_timer_2_timeout"]
