@@ -46,6 +46,7 @@ func _physics_process(delta: float) -> void:
 
 func _shoot():
 	GlobalManager.player.change_ammo_count(5)
+	print(GlobalManager.player.ammo_count)
 	$Timer.start()
 	can_shoot = true
 	print("hooray")

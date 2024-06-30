@@ -192,3 +192,10 @@ offset_left = 12.0
 offset_top = 43.0
 offset_right = 84.0
 offset_bottom = 85.0
+
+[node name="AmmoText" type="Label" parent="UI"]
+unique_name_in_owner = true
+offset_left = 12.0
+offset_top = 75.0
+offset_right = 84.0
+offset_bottom = 117.0

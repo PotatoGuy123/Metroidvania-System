@@ -9,6 +9,7 @@ var bullet_life = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GlobalManager.player.change_ammo_count(1)
 	$Timer2.start()
 
 func check_direction(dir : Vector2):

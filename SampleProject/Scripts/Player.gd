@@ -42,11 +42,13 @@ var aim_direction : Vector2
 var can_jump : bool = true
 
 @onready var health_text : Label = %HealthText
+@onready var ammo_text : Label = %AmmoText
 
 func _ready() -> void:
 	on_enter()
 	health = max_health
 	ammo_count = max_ammo_count
+	change_ammo_count(0)
 	GlobalManager.player = self
 
 func _physics_process(delta: float) -> void:
@@ -167,7 +169,7 @@ func normal_shot():
 			get_bullets.check_direction(bullet_direction)
 		get_parent().add_child(get_bullets)
 		get_bullets.position = bullet_marker.global_position
-		ammo_count= ammo_count-1
+		#ammo_count= ammo_count-1
 		print (ammo_count)
 		print("normal shot")
 		
@@ -187,6 +189,8 @@ func charge_shot():
 			
 func change_ammo_count(value):
 	ammo_count = ammo_count - value
+	update_ammo_text()
+	print(ammo_count)
 	
 func melee():
 	pass
@@ -210,6 +214,10 @@ func take_damage(value):
 
 func update_health_text():
 	health_text.text = str(health) + "/" + str(max_health)
+	
+func update_ammo_text():
+	if ammo_count >= 0:
+		ammo_text.text = str(ammo_count) + "/" + str(max_ammo_count)
 
 func _look_at_target_interpolated(weight:float) -> void:
 	var xform : Transform2D = bullet_marker_parent.transform # your transform
