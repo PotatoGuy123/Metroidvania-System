@@ -9,7 +9,8 @@ var health
 
 var damage: int = 50
 var bullet_direction = Vector2()
-@onready var bullet_marker = $Bullet_Exit_Position
+@onready var bullet_marker = $Bullet_Exit_Parent/Bullet_Exit_Position
+@onready var bullet_marker_parent = $Bullet_Exit_Parent
 var is_aiming_up = false
 var is_aiming_down = false
 var is_aiming = false
@@ -107,36 +108,28 @@ func _physics_process(delta: float) -> void:
 		take_damage(damage)
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
-		
+
 func check_current_aim():
 	var velocity = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	if Input.is_action_pressed("Aim_up"):
 		is_aiming_up = true
 	if Input.is_action_just_released("Aim_up"):
 		is_aiming_up = false
-		
+
 func check_bullet_direction():
-	
 	if aim_direction != Vector2.ZERO:
 		bullet_direction = aim_direction
 	else:
 		if current_direction == "Left":
-			bullet_marker.position = Vector2(-27,10)
+			bullet_marker_parent.rotation_degrees = 180
 			bullet_direction = Vector2(-1, 0)
 		if current_direction == "Right":
-			bullet_marker.position = Vector2(27,10)
+			bullet_marker_parent.rotation_degrees = 0
 			bullet_direction = Vector2(1, 0)
 	
-	var aim_direction_modifier : Vector2
+	var aim_direction_modifier : Vector2 = aim_direction
 	
-	if aim_direction.x <= 0.2 && aim_direction.x >= -0.2:
-		aim_direction_modifier = Vector2(0, 10)
-	elif current_direction == "Right":
-		aim_direction_modifier = Vector2 (27, 10) - aim_direction
-	elif current_direction == "Left":
-		aim_direction_modifier = Vector2 (-27, 10) - aim_direction
-	
-	bullet_marker.position = aim_direction + aim_direction_modifier
+	_look_at_target_interpolated(1)
 
 func shoot():
 	var get_bullets = load_charge_bullets.instantiate()
@@ -146,8 +139,6 @@ func shoot():
 		get_bullets.check_direction(bullet_direction)
 	get_parent().add_child(get_bullets)
 	get_bullets.position = bullet_marker.global_position
-	
-	
 
 func kill():
 	# Player dies, reset the position to the entrance.
@@ -169,8 +160,10 @@ func take_damage(value):
 func update_health_text():
 	health_text.text = str(health) + "/" + str(max_health)
 
-
-
+func _look_at_target_interpolated(weight:float) -> void:
+	var xform : Transform2D = bullet_marker_parent.transform # your transform
+	xform = xform.looking_at(aim_direction)
+	bullet_marker_parent.transform = bullet_marker_parent.transform.interpolate_with(xform,weight)
 
 func _on_area_2d_body_entered(body):
 	pass # Replace with function body.

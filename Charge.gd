@@ -19,7 +19,8 @@ func _physics_process(delta):
 		bullet_movement = bullet_speed * delta * bullet_direction
 		translate(bullet_movement.normalized() * bullet_speed)
 	else:
-		position = GlobalManager.player.position
+		print(GlobalManager.player.get_child(4).get_child(0))
+		position = GlobalManager.player.get_child(4).get_child(0).global_position
 
 func _shoot():
 	$Timer.start()
