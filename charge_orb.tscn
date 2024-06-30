@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcfv4fbhum8i5"]
+
+[ext_resource type="PackedScene" uid="uid://c8j6i3fx8p758" path="res://SampleProject/Objects/Collectible.tscn" id="1_txhse"]
+
+[node name="Charge Orb" instance=ExtResource("1_txhse")]

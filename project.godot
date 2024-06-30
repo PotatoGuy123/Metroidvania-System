@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 
 MetSys="*res://addons/MetroidvaniaSystem/Nodes/Singleton.tscn"
 GlobalManager="*res://Game/Global/global_manager.gd"
+AmmoManager="*res://Ammo_manager.gd"
 
 [debug]
 

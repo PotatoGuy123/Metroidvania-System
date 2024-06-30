@@ -17,9 +17,9 @@ var is_aiming = false
 
 @export var max_ammo_count = 25
 var ammo_count
-@export var charge_unlocked = true
+@export var charge_unlocked = false
 
-var threshold_time = 0.2
+var threshold_time = 0.5
 var timer = 0
 var action_started = false
 
@@ -181,9 +181,12 @@ func charge_shot():
 				get_bullets.check_direction(bullet_direction)
 			get_parent().add_child(get_bullets)
 			get_bullets.position = bullet_marker.global_position
-			ammo_count= ammo_count-5
-			print(ammo_count)
-			print("charge fired")
+			#ammo_count= ammo_count-5
+			#print(ammo_count)
+			print("starting charge")
+			
+func change_ammo_count(value):
+	ammo_count = ammo_count - value
 	
 func melee():
 	pass

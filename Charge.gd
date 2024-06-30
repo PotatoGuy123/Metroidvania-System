@@ -1,28 +1,51 @@
 extends "res://Scenes/bullet.gd"
 
+@onready var ammo= preload("res://SampleProject/Player.tscn")
+signal damage(value)
+
 var can_shoot : bool = false
+
+var threshold_time = 2
+var timer = 0
+var charge_ready = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Timer2.start()
+	pass
+	#$Timer2.start()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	pass
 	
-	
-	if Input.is_action_just_released("shoot"):
-		_shoot()
+	#if Input.is_action_just_released("shoot"):
+		#_shoot()
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	if can_shoot:
 		bullet_movement = bullet_speed * delta * bullet_direction
 		translate(bullet_movement.normalized() * bullet_speed)
 	else:
 		print(GlobalManager.player.get_child(4).get_child(0))
 		position = GlobalManager.player.get_child(4).get_child(0).global_position
+		
+	if Input.is_action_pressed("shoot"):
+		timer += delta
+		
+	if timer >= threshold_time:
+		timer = 0
+		print("hold")
+		charge_ready=true
+	
+	if charge_ready == true and Input.is_action_just_released("shoot"):
+		_shoot()
+	if charge_ready == false and Input.is_action_just_released("shoot"):
+		queue_free()
+		
 
 func _shoot():
+	GlobalManager.player.change_ammo_count(5)
 	$Timer.start()
 	can_shoot = true
 	print("hooray")

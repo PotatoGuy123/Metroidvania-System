@@ -12,8 +12,10 @@ func _ready() -> void:
 
 func collect(body: Node2D) -> void:
 	# Check if player collided.
-	if not body.is_in_group(&\"player\"):
+	if not body.is_in_group(\"Player\"):
 		return
+	if body.is_in_group(\"Player\"):
+		body.charge_unlocked = true
 	# Increase collectible counter.
 	Game.get_singleton().collectibles += 1
 	# Store the orb. This will automatically assign the collected marker.
