@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtlk8xr4cfi4j"]
+[gd_scene load_steps=5 format=3 uid="uid://dtlk8xr4cfi4j"]
 
+[ext_resource type="Script" path="res://Scenes/sword.gd" id="1_f5fub"]
 [ext_resource type="Texture2D" uid="uid://1d1lnu3rf1hl" path="res://SampleProject/Sprites/Le Stabber.png" id="1_yoggd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cbg0c"]
@@ -9,6 +10,7 @@ size = Vector2(10, 0.999998)
 size = Vector2(4, 21)
 
 [node name="Sword" type="Area2D"]
+script = ExtResource("1_f5fub")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.90736e-06, -1)
