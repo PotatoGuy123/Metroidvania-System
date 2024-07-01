@@ -11,7 +11,7 @@ func collect(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		if body.max_ammo_count - body.ammo_count >= 5:
 			body.ammo_count +=5
-		if body.max_ammo_count - body.ammo_count < 5:
+		elif body.max_ammo_count - body.ammo_count < 5:
 			body.ammo_count += body.max_ammo_count - body.ammo_count
 		body.update_ammo_text()
 	# Increase collectible counter.

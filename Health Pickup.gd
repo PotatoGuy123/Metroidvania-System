@@ -10,8 +10,10 @@ func collect(body: Node2D) -> void:
 		return
 	if body.is_in_group("Player"):
 		if body.max_health - body.health >= 25:
+			print(body.max_health - body.health)
 			body.health += 25
-		if body.max_health - body.health < 25:
+		elif body.max_health - body.health < 25:
+			print(body.max_health - body.health)
 			body.health += body.max_health - body.health
 		body.update_health_text()
 	# Increase collectible counter.
