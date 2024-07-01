@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsfn8r1x3avg8"]
+
+[ext_resource type="PackedScene" uid="uid://c8j6i3fx8p758" path="res://SampleProject/Objects/Collectible.tscn" id="1_fvsqf"]
+[ext_resource type="Script" path="res://Health.gd" id="2_e12uq"]
+
+[node name="Health" instance=ExtResource("1_fvsqf")]
+script = ExtResource("2_e12uq")
+
+[node name="Sprite2D" parent="." index="1"]
+modulate = Color(1, 0, 0.870588, 1)
