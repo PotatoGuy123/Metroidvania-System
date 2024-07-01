@@ -12,10 +12,6 @@ func _ready() -> void:
 
 func collect(body: Node2D) -> void:
 	# Check if player collided.
-	if not body.is_in_group(\"Player\"):
-		return
-	if body.is_in_group(\"Player\"):
-		body.charge_unlocked = true
 	# Increase collectible counter.
 	Game.get_singleton().collectibles += 1
 	# Store the orb. This will automatically assign the collected marker.
@@ -25,7 +21,7 @@ func collect(body: Node2D) -> void:
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5e3t"]
-size = Vector2(32, 32)
+size = Vector2(16, 16)
 
 [node name="Collectible" type="Area2D"]
 script = SubResource("GDScript_5wqrn")

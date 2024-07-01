@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://6y6fhuni1b3y"]
+
+[ext_resource type="Texture2D" uid="uid://bcm78r1gl6tv4" path="res://SampleProject/Sprites/Happy Bullet Fren.png" id="2_7lt0c"]
+[ext_resource type="Script" path="res://Ammo Pickup.gd" id="2_ndasy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5e3t"]
+size = Vector2(16, 16)
+
+[node name="Ammo Pickup" type="Area2D"]
+script = ExtResource("2_ndasy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_v5e3t")
+
+[node name="HappyBulletFren" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(3, 3)
+scale = Vector2(3.28125, 3.28125)
+texture = ExtResource("2_7lt0c")
+
+[connection signal="body_entered" from="." to="." method="collect"]

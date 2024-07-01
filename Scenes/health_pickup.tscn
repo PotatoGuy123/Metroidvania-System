@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://lo6koo6gd48a"]
+
+[ext_resource type="PackedScene" uid="uid://dsfn8r1x3avg8" path="res://Scenes/health.tscn" id="1_ugggn"]
+[ext_resource type="Script" path="res://Health Pickup.gd" id="2_w3fvx"]
+
+[node name="Health Pickup" instance=ExtResource("1_ugggn")]
+script = ExtResource("2_w3fvx")
+
+[node name="Sprite2D" parent="." index="1"]
+scale = Vector2(0.5, 0.5)

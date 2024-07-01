@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bivakijktfees"]
+[gd_scene load_steps=15 format=3 uid="uid://bivakijktfees"]
 
 [ext_resource type="TileSet" uid="uid://bwpcg2opya34n" path="res://SampleProject/Resources/Tileset.tres" id="1_o8cmo"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="2_blgo0"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://c8j6i3fx8p758" path="res://SampleProject/Objects/Collectible.tscn" id="7_1w7b6"]
 [ext_resource type="PackedScene" uid="uid://dhjpkp828nytm" path="res://Scenes/ammo.tscn" id="8_xomdo"]
 [ext_resource type="PackedScene" uid="uid://dsfn8r1x3avg8" path="res://Scenes/health.tscn" id="9_q714t"]
+[ext_resource type="PackedScene" uid="uid://d040nnoa51nyh" path="res://Scenes/static_enemy.tscn" id="10_s71ow"]
+[ext_resource type="PackedScene" uid="uid://6y6fhuni1b3y" path="res://Scenes/ammo_pickup.tscn" id="11_15s8n"]
+[ext_resource type="PackedScene" uid="uid://lo6koo6gd48a" path="res://Scenes/health_pickup.tscn" id="12_0nrsq"]
 
 [sub_resource type="GDScript" id="GDScript_7vkwe"]
 script/source = "extends Line2D
@@ -43,7 +46,7 @@ points = PackedVector2Array(0, 0, 864, 0)
 script = SubResource("GDScript_7vkwe")
 
 [node name="Elevator" parent="." instance=ExtResource("4_xc2rt")]
-position = Vector2(448, 368)
+position = Vector2(729, 219)
 target_map = "UpperElevatorRoom.tscn"
 
 [node name="SavePoint" type="Area2D" parent="."]
@@ -69,15 +72,25 @@ theme_override_font_sizes/font_size = 40
 text = "S"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Charge Orb" parent="." instance=ExtResource("6_7u7vr")]
 position = Vector2(711, 355)
 
 [node name="Collectible" parent="." instance=ExtResource("7_1w7b6")]
-position = Vector2(323, 341)
+position = Vector2(184, 303)
 
 [node name="Ammo" parent="." instance=ExtResource("8_xomdo")]
 position = Vector2(572, 356)
 
 [node name="Health" parent="." instance=ExtResource("9_q714t")]
 position = Vector2(648, 357)
+
+[node name="Static Enemy" parent="." instance=ExtResource("10_s71ow")]
+position = Vector2(170, 353)
+
+[node name="Ammo Pickup" parent="." instance=ExtResource("11_15s8n")]
+position = Vector2(365, 310)
+
+[node name="Health Pickup" parent="." instance=ExtResource("12_0nrsq")]
+position = Vector2(290, 306)

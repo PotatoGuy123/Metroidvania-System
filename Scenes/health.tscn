@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsfn8r1x3avg8"]
+[gd_scene load_steps=4 format=3 uid="uid://dsfn8r1x3avg8"]
 
-[ext_resource type="PackedScene" uid="uid://c8j6i3fx8p758" path="res://SampleProject/Objects/Collectible.tscn" id="1_fvsqf"]
 [ext_resource type="Script" path="res://Health.gd" id="2_e12uq"]
+[ext_resource type="Texture2D" uid="uid://wiq0mic5m6is" path="res://SampleProject/Sprites/Collectible.png" id="2_xym7e"]
 
-[node name="Health" instance=ExtResource("1_fvsqf")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5e3t"]
+size = Vector2(16, 16)
+
+[node name="Health" type="Area2D"]
 script = ExtResource("2_e12uq")
 
-[node name="Sprite2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v5e3t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0, 0.870588, 1)
+texture = ExtResource("2_xym7e")
+
+[connection signal="body_entered" from="." to="." method="collect"]

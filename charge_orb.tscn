@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcfv4fbhum8i5"]
+[gd_scene load_steps=4 format=3 uid="uid://bcfv4fbhum8i5"]
 
-[ext_resource type="PackedScene" uid="uid://c8j6i3fx8p758" path="res://SampleProject/Objects/Collectible.tscn" id="1_txhse"]
+[ext_resource type="Texture2D" uid="uid://wiq0mic5m6is" path="res://SampleProject/Sprites/Collectible.png" id="2_4c7ik"]
 [ext_resource type="Script" path="res://charge_orb.gd" id="2_urfwo"]
 
-[node name="Charge Orb" instance=ExtResource("1_txhse")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5e3t"]
+size = Vector2(16, 16)
+
+[node name="Charge Orb" type="Area2D"]
 script = ExtResource("2_urfwo")
 
-[node name="Sprite2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v5e3t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.988235, 1, 0, 1)
+texture = ExtResource("2_4c7ik")
+
+[connection signal="body_entered" from="." to="." method="collect"]
