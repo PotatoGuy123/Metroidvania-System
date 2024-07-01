@@ -17,7 +17,6 @@ func collect(body: Node2D) -> void:
 			body.health += body.max_health - body.health
 		body.update_health_text()
 	# Increase collectible counter.
-	Game.get_singleton().collectibles += 1
 	# Store the orb. This will automatically assign the collected marker.
 	MetSys.store_object(self)
 	# Storing object does not free it automatically.
