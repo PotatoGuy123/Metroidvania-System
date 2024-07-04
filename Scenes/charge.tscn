@@ -6,6 +6,9 @@
 [node name="Charge" instance=ExtResource("1_48rhb")]
 script = ExtResource("2_62he5")
 
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(1, -1)
+
 [node name="Timer" parent="." index="2"]
 autostart = false
 

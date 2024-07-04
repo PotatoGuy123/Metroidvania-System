@@ -1,6 +1,5 @@
 extends RayCast2D
-@onready var ammo= load("res://SampleProject/Player.tscn")
-signal Ammo_change(value)
+
 
 @export var bullet_speed = 22
 var bullet_movement : Vector2 = Vector2()
@@ -74,9 +73,9 @@ func _physics_process(delta: float) -> void:
 		translate(bullet_movement.normalized() * bullet_speed)
 		charge_ready = false
 		GlobalManager.player.has_shot = true
-	#else:
-		#print(GlobalManager.player.get_child(4).get_child(0))
-		#position = GlobalManager.player.get_child(4).get_child(0).global_position
+	else:
+		print(GlobalManager.player.get_child(4).get_child(0))
+		position = GlobalManager.player.get_child(4).get_child(0).global_position
 		
 	if Input.is_action_pressed("shoot"):
 		timer += delta
@@ -87,7 +86,6 @@ func _physics_process(delta: float) -> void:
 	if timer >= threshold_time:
 		timer = 0
 		print("hold")
-		charge_ready=true
 		is_casting = true
 		shoot()
 		#GlobalManager.player.is_charge_ready = true
@@ -100,9 +98,13 @@ func _physics_process(delta: float) -> void:
 		timer2 = 0
 		
 	if Input.is_action_just_released("shoot") or !GlobalManager.player.ammo_count > 0:
+		queue_free()
+		GlobalManager.player.laser_is_shooting = false
+		GlobalManager.player.has_shot = false
+		GlobalManager.player.is_charge_ready = false
 		is_casting = false
 		is_shooting = false
-		queue_free()
+		
 	
 func shoot():
 	is_shooting = true
@@ -111,9 +113,9 @@ func shoot():
 		
 	if is_casting == true:
 		appear()
-	else:
+	#else:
 		#collision_particles_2.emitting = false
-		disapear()
+		#disapear()
 	set_physics_process(is_casting)
 
 func check_direction(dir : Vector2):
@@ -124,16 +126,7 @@ func appear() -> void:
 	tween.tween_property($Line2D, "width", 3.0, 0.2)
 
 
-func disapear() -> void:
-	var tween = create_tween()
-	tween.tween_property($Line2D, "width", 0, 0.1)
+#func disapear() -> void:
+	#var tween = create_tween()
+	#tween.tween_property($Line2D, "width", 0, 0.1)
 
-
-func _on_timer_timeout():
-	print("Why is this so fucking difficult")
-	if GlobalManager.player.ammo_count > 0:
-		GlobalManager.player.ammo_count =- 1
-
-func _on_raycast_2d_body_entered(body):
-	if body.is_in_group("Enemy"):
-		body.take_damage(30)

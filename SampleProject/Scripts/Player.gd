@@ -25,10 +25,11 @@ var ammo_count
 @export var charge_unlocked = false
 
 var threshold_time = 0.5
-var threshold_time2 = 0.5
+var threshold_time2 = 1
 var timer = 0
 var timer2 = 0
 var action_started = false
+var action2_started = false
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -450.0
@@ -128,6 +129,7 @@ func _physics_process(delta: float) -> void:
 		#shoot()
 	if Input.is_action_just_pressed("shoot"):
 		action_started = true
+		has_shot = false
 		
 	if Input.is_action_pressed("shoot") and action_started:
 		timer += delta
@@ -142,17 +144,22 @@ func _physics_process(delta: float) -> void:
 		if timer < threshold_time and action_started:
 			print("press")
 			normal_shot()
-		action_started = false
+			action_started = false
 		timer = 0
-	
-	if Input.is_action_pressed("shoot") and has_shot == false and is_charge_ready == true:
+			
+	if Input.is_action_pressed("shoot") and has_shot == false and is_charge_ready == true and action2_started == true:
 		timer2 += delta
 		print("hi there")
 	
-	if timer2 >= threshold_time2 and has_shot == false:
-		has_shot = true
-		action_started = false
+	if Input.is_action_just_released("shoot") and has_shot == false and is_charge_ready == true:
+		timer2 = 0
 		timer = 0
+	
+	if timer2 >= threshold_time2 and has_shot == false and action2_started == true:
+		has_shot = true
+		action2_started = false
+		timer = 0
+		timer2 = 0
 		print("hold2")
 		laser_shot()
 	
@@ -211,10 +218,10 @@ func laser_shot():
 		laser_is_shooting = true
 		if ammo_count > 0:
 			var get_bullets = load_laser.instantiate()
-			#if current_direction == "Left":
-				#get_bullets.check_direction(bullet_direction)
-			#if current_direction == "Right":
-				#get_bullets.check_direction(bullet_direction)
+			if current_direction == "Left":
+				get_bullets.check_direction(bullet_direction)
+			if current_direction == "Right":
+				get_bullets.check_direction(bullet_direction)
 			get_parent().add_child(get_bullets)
 			get_bullets.position = bullet_marker.global_position
 			#ammo_count= ammo_count-5
