@@ -4,11 +4,11 @@
 [ext_resource type="Script" path="res://Scenes/bullet.gd" id="1_64cun"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsyuq"]
-radius = 2.0
-height = 10.0
+radius = 0.0
+height = 9.99997
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnsof"]
-size = Vector2(20, 8)
+size = Vector2(677, 8)
 
 [node name="Bullet" type="Area2D"]
 script = ExtResource("1_64cun")

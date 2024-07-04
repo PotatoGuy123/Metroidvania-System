@@ -4,28 +4,28 @@
 [ext_resource type="Texture2D" uid="uid://cb8o1oxpg8ckr" path="res://SampleProject/Sprites/mista Rectangle.png" id="2_t62ry"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h71hl"]
-size = Vector2(27, 21)
+size = Vector2(27, 77)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fh2mr"]
-size = Vector2(29, 22)
+size = Vector2(29, 77)
 
 [node name="Static Enemy" type="CharacterBody2D" groups=["Enemy"]]
 script = ExtResource("1_2kvg0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(0, 21.5)
-scale = Vector2(0.8125, 0.328125)
+position = Vector2(0, -7)
+scale = Vector2(0.8125, 1.21875)
 texture = ExtResource("2_t62ry")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 21.5)
+position = Vector2(0.5, -6.5)
 shape = SubResource("RectangleShape2D_h71hl")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.5, 21)
+position = Vector2(0.5, -6.5)
 shape = SubResource("RectangleShape2D_fh2mr")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

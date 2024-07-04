@@ -4,8 +4,9 @@ extends CharacterBody2D
 @export var max_health = 100
 var health
 
-@onready var load_bullets= preload("res://Scenes/bullet.tscn")
-@onready var load_charge_bullets = preload("res://Scenes/charge.tscn")
+@onready var load_bullets= load("res://Scenes/bullet.tscn")
+@onready var load_charge_bullets = load("res://Scenes/charge.tscn")
+@onready var load_laser = load("res://Scenes/laser.tscn")
 
 var damage: int = 50
 var bullet_direction = Vector2()
@@ -15,12 +16,18 @@ var is_aiming_up = false
 var is_aiming_down = false
 var is_aiming = false
 
+var has_shot = false
+var is_charge_ready = false
+var laser_is_shooting = false
+
 @export var max_ammo_count = 25
 var ammo_count
 @export var charge_unlocked = false
 
 var threshold_time = 0.5
+var threshold_time2 = 0.5
 var timer = 0
+var timer2 = 0
 var action_started = false
 
 const SPEED = 300.0
@@ -137,6 +144,18 @@ func _physics_process(delta: float) -> void:
 			normal_shot()
 		action_started = false
 		timer = 0
+	
+	if Input.is_action_pressed("shoot") and has_shot == false and is_charge_ready == true:
+		timer2 += delta
+		print("hi there")
+	
+	if timer2 >= threshold_time2 and has_shot == false:
+		has_shot = true
+		action_started = false
+		timer = 0
+		print("hold2")
+		laser_shot()
+	
 
 func check_current_aim():
 	var velocity = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -186,6 +205,21 @@ func charge_shot():
 			#ammo_count= ammo_count-5
 			#print(ammo_count)
 			print("starting charge")
+			
+func laser_shot():
+	if charge_unlocked == true:
+		laser_is_shooting = true
+		if ammo_count > 0:
+			var get_bullets = load_laser.instantiate()
+			#if current_direction == "Left":
+				#get_bullets.check_direction(bullet_direction)
+			#if current_direction == "Right":
+				#get_bullets.check_direction(bullet_direction)
+			get_parent().add_child(get_bullets)
+			get_bullets.position = bullet_marker.global_position
+			#ammo_count= ammo_count-5
+			#print(ammo_count)
+			print("starting laser charge")
 			
 func change_ammo_count(value):
 	ammo_count = ammo_count - value
