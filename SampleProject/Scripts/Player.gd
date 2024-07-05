@@ -23,6 +23,7 @@ var laser_is_shooting = false
 @export var max_ammo_count = 25
 var ammo_count
 @export var charge_unlocked = false
+@export var laser_unlocked = false
 
 var threshold_time = 0.5
 var threshold_time2 = 1
@@ -52,6 +53,11 @@ var can_jump : bool = true
 @onready var health_text : Label = %HealthText
 @onready var ammo_text : Label = %AmmoText
 
+var controllerangle = Vector2(0,0)
+@export var deadzone = 0.3
+
+
+
 func _ready() -> void:
 	on_enter()
 	health = max_health
@@ -60,6 +66,15 @@ func _ready() -> void:
 	GlobalManager.player = self
 
 func _physics_process(delta: float) -> void:
+	#var xAxisRL = Input.get_joy_axis(0, 0)
+	#var yAxisUD = Input.get_joy_axis(0 ,1)
+	#controllerangle = Vector2(xAxisRL, yAxisUD).angle()
+	print(controllerangle)
+	
+	#rotation = controllerangle
+	#print(rotation)
+	controllerangle = Input.get_vector("left", "right", "up", "down", 0.3).angle()
+	bullet_marker_parent.rotation = controllerangle
 	check_bullet_direction()
 	
 	if event:
@@ -189,6 +204,7 @@ func check_bullet_direction():
 func normal_shot():
 	if ammo_count > 0:
 		var get_bullets = load_bullets.instantiate()
+		get_bullets.bullet_rotation(controllerangle)
 		if current_direction == "Left":
 			get_bullets.check_direction(bullet_direction)
 		if current_direction == "Right":
@@ -201,8 +217,9 @@ func normal_shot():
 		
 func charge_shot():
 	if charge_unlocked == true:
-		if ammo_count > 0:
+		if ammo_count >= 5 :
 			var get_bullets = load_charge_bullets.instantiate()
+			get_bullets.bullet_rotation(controllerangle)
 			if current_direction == "Left":
 				get_bullets.check_direction(bullet_direction)
 			if current_direction == "Right":
@@ -214,10 +231,11 @@ func charge_shot():
 			print("starting charge")
 			
 func laser_shot():
-	if charge_unlocked == true:
+	if laser_unlocked == true:
 		laser_is_shooting = true
 		if ammo_count > 0:
 			var get_bullets = load_laser.instantiate()
+			get_bullets.bullet_rotation(controllerangle)
 			if current_direction == "Left":
 				get_bullets.check_direction(bullet_direction)
 			if current_direction == "Right":
@@ -261,9 +279,10 @@ func update_ammo_text():
 		ammo_text.text = str(ammo_count) + "/" + str(max_ammo_count)
 
 func _look_at_target_interpolated(weight:float) -> void:
-	var xform : Transform2D = bullet_marker_parent.transform # your transform
-	xform = xform.looking_at(aim_direction)
-	bullet_marker_parent.transform = bullet_marker_parent.transform.interpolate_with(xform,weight)
+	#var xform : Transform2D = bullet_marker_parent.transform # your transform
+	#xform = xform.looking_at(aim_direction)
+	#bullet_marker_parent.transform = bullet_marker_parent.transform.interpolate_with(xform,weight)
+	pass
 
 func _on_area_2d_body_entered(body):
 	pass # Replace with function body.

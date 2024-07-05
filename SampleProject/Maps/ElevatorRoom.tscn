@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bivakijktfees"]
+[gd_scene load_steps=16 format=3 uid="uid://bivakijktfees"]
 
 [ext_resource type="TileSet" uid="uid://bwpcg2opya34n" path="res://SampleProject/Resources/Tileset.tres" id="1_o8cmo"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="2_blgo0"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://d040nnoa51nyh" path="res://Scenes/static_enemy.tscn" id="10_s71ow"]
 [ext_resource type="PackedScene" uid="uid://6y6fhuni1b3y" path="res://Scenes/ammo_pickup.tscn" id="11_15s8n"]
 [ext_resource type="PackedScene" uid="uid://lo6koo6gd48a" path="res://Scenes/health_pickup.tscn" id="12_0nrsq"]
+[ext_resource type="PackedScene" uid="uid://cop5hedmhb50a" path="res://Scenes/laser_orb.tscn" id="13_kh66u"]
 
 [sub_resource type="GDScript" id="GDScript_7vkwe"]
 script/source = "extends Line2D
@@ -75,22 +76,25 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Charge Orb" parent="." instance=ExtResource("6_7u7vr")]
-position = Vector2(711, 355)
+position = Vector2(715, 300)
 
 [node name="Collectible" parent="." instance=ExtResource("7_1w7b6")]
 position = Vector2(184, 303)
 
 [node name="Ammo" parent="." instance=ExtResource("8_xomdo")]
-position = Vector2(572, 356)
+position = Vector2(592, 296)
 
 [node name="Health" parent="." instance=ExtResource("9_q714t")]
-position = Vector2(648, 357)
+position = Vector2(651, 297)
 
 [node name="Static Enemy" parent="." instance=ExtResource("10_s71ow")]
 position = Vector2(170, 353)
 
 [node name="Ammo Pickup" parent="." instance=ExtResource("11_15s8n")]
-position = Vector2(365, 310)
+position = Vector2(343, 300)
 
 [node name="Health Pickup" parent="." instance=ExtResource("12_0nrsq")]
-position = Vector2(290, 306)
+position = Vector2(280, 296)
+
+[node name="Laser Orb" parent="." instance=ExtResource("13_kh66u")]
+position = Vector2(531, 295)

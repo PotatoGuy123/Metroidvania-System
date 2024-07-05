@@ -59,6 +59,7 @@ glow_blend_mode = 0
 position = Vector2(186, 173)
 target_position = Vector2(1000, 0)
 script = ExtResource("1_xfhtd")
+bullet_speed = 0
 
 [node name="CastingParticles2D" type="GPUParticles2D" parent="."]
 emitting = false

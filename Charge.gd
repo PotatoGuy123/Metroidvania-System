@@ -24,6 +24,8 @@ func _process(delta):
 		#_shoot()
 
 func _physics_process(delta: float) -> void:
+	if can_shoot == false:
+		rotation = GlobalManager.player.bullet_marker_parent.rotation
 	if GlobalManager.player.laser_is_shooting == true:
 		queue_free()
 		GlobalManager.player.timer = 0
@@ -52,6 +54,7 @@ func _physics_process(delta: float) -> void:
 	if charge_ready == true and Input.is_action_pressed("shoot"):
 		pass
 	if charge_ready == true and Input.is_action_just_released("shoot"):
+		bullet_direction = GlobalManager.player.aim_direction
 		_shoot()
 	if charge_ready == false and Input.is_action_just_released("shoot"):
 		queue_free()

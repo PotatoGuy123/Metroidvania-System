@@ -51,11 +51,13 @@ func _process(delta):
 
 
 func _physics_process(delta: float) -> void:
+	rotation = GlobalManager.player.bullet_marker_parent.rotation
+	
 	var cast_point := target_position
 	force_raycast_update()
 	
-	bullet_movement = bullet_speed * delta * bullet_direction
-	translate(bullet_movement.normalized() * bullet_speed)
+	#bullet_movement = bullet_speed * delta * bullet_direction
+	#translate(bullet_movement.normalized() * bullet_speed)
 	
 	collision_particles_2.emitting = is_colliding()
 	
@@ -63,14 +65,14 @@ func _physics_process(delta: float) -> void:
 		cast_point = to_local(get_collision_point())
 		collision_particles_2.global_rotation = get_collision_normal().angle()
 		collision_particles_2.position = cast_point
-	
+	#$Line2D.points[0] = GlobalManager.player.position
 	$Line2D.points[1] = cast_point
 	beam_particle_2d.position = cast_point * 0.5
 	beam_particle_2d.process_material.emission_box_extents.x = cast_point.length() * 0.5
 	
 	if can_shoot:
-		bullet_movement = bullet_speed * delta * bullet_direction
-		translate(bullet_movement.normalized() * bullet_speed)
+		#bullet_movement = bullet_speed * delta * bullet_direction
+		#translate(bullet_movement.normalized() * bullet_speed)
 		charge_ready = false
 		GlobalManager.player.has_shot = true
 	else:
@@ -107,6 +109,8 @@ func _physics_process(delta: float) -> void:
 		
 	
 func shoot():
+	#can_shoot = true
+	#target_position = bullet_direction
 	is_shooting = true
 	beam_particle_2d.emitting = is_casting
 	casting_particles.emitting = is_casting
@@ -117,6 +121,10 @@ func shoot():
 		#collision_particles_2.emitting = false
 		#disapear()
 	set_physics_process(is_casting)
+	
+func bullet_rotation(value):
+	rotation = value
+	print(rotation)
 
 func check_direction(dir : Vector2):
 	bullet_direction = dir
