@@ -47,7 +47,8 @@ func _process(delta):
 			var collision = get_collider()
 			#print(collision.body.name)
 			if collision.is_in_group("Enemy"):
-				collision.take_damage(0.1)
+				if collision.health > 0:
+					collision.take_damage(0.1)
 
 
 func _physics_process(delta: float) -> void:
