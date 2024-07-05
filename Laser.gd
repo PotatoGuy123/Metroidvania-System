@@ -36,7 +36,9 @@ var is_shooting = false
 		#set_physics_process(is_casting)
 
 func _ready():
+	print("All i know is pain")
 	is_casting = false
+	$Line2D.visible = false
 
 #func _unhandled_input(event: InputEvent) -> void:
 		#if event is InputEventJoypadButton:
@@ -59,10 +61,10 @@ func _physics_process(delta: float) -> void:
 	
 	#bullet_movement = bullet_speed * delta * bullet_direction
 	#translate(bullet_movement.normalized() * bullet_speed)
+	if is_casting:
+		collision_particles_2.emitting = is_colliding()
 	
-	collision_particles_2.emitting = is_colliding()
-	
-	if is_colliding():
+	if is_colliding() and is_casting:
 		cast_point = to_local(get_collision_point())
 		collision_particles_2.global_rotation = get_collision_normal().angle()
 		collision_particles_2.position = cast_point
@@ -110,6 +112,7 @@ func _physics_process(delta: float) -> void:
 		
 	
 func shoot():
+	$Line2D.visible = true
 	#can_shoot = true
 	#target_position = bullet_direction
 	is_shooting = true

@@ -2,13 +2,13 @@
 extends CharacterBody2D
 
 @export var max_health = 100
-var health
+@export var health : int
 
 @onready var load_bullets= load("res://Scenes/bullet.tscn")
 @onready var load_charge_bullets = load("res://Scenes/charge.tscn")
 @onready var load_laser = load("res://Scenes/laser.tscn")
 
-var damage: int = 50
+@export var damage: int = 50
 var bullet_direction = Vector2()
 @onready var bullet_marker = $Bullet_Exit_Parent/Bullet_Exit_Position
 @onready var bullet_marker_parent = $Bullet_Exit_Parent
@@ -21,7 +21,7 @@ var is_charge_ready = false
 var laser_is_shooting = false
 
 @export var max_ammo_count = 25
-var ammo_count
+@export var ammo_count : int
 @export var charge_unlocked = false
 @export var laser_unlocked = false
 
@@ -32,8 +32,8 @@ var timer2 = 0
 var action_started = false
 var action2_started = false
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -450.0
+@export var SPEED = 300.0
+@export var JUMP_VELOCITY = -450.0
 var current_direction = "Idle"
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 var animation: String
@@ -73,7 +73,7 @@ func _physics_process(delta: float) -> void:
 	
 	#rotation = controllerangle
 	#print(rotation)
-	controllerangle = Input.get_vector("left", "right", "up", "down", 0.3).angle()
+	controllerangle = Input.get_vector("left", "right", "up", "down", deadzone).angle()
 	bullet_marker_parent.rotation = controllerangle
 	check_bullet_direction()
 	
@@ -178,6 +178,8 @@ func _physics_process(delta: float) -> void:
 		print("hold2")
 		laser_shot()
 	
+	check_bullet_direction()
+	
 
 func check_current_aim():
 	var velocity = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -217,7 +219,7 @@ func normal_shot():
 		
 func charge_shot():
 	if charge_unlocked == true:
-		if ammo_count >= 5 :
+		if ammo_count > 0 :
 			var get_bullets = load_charge_bullets.instantiate()
 			get_bullets.bullet_rotation(controllerangle)
 			if current_direction == "Left":

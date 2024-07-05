@@ -7,7 +7,7 @@
 size = Vector2(27, 77)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fh2mr"]
-size = Vector2(29, 77)
+size = Vector2(29, 78)
 
 [node name="Static Enemy" type="CharacterBody2D" groups=["Enemy"]]
 script = ExtResource("1_2kvg0")
@@ -25,7 +25,8 @@ shape = SubResource("RectangleShape2D_h71hl")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.5, -6.5)
+position = Vector2(0.5, -7)
 shape = SubResource("RectangleShape2D_fh2mr")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

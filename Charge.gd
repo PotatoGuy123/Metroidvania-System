@@ -12,6 +12,9 @@ var charge_ready = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$CollisionShape2D.disabled = true
+	$Area2D/CollisionShape2D.disabled = true
+	$HappyBulletFren.visible = false
 	pass
 	#$Timer2.start()
 
@@ -30,7 +33,10 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		GlobalManager.player.timer = 0
 		GlobalManager.player.is_charge_ready = false
-	if can_shoot:
+	if can_shoot and GlobalManager.player.ammo_count >= 5:
+		$CollisionShape2D.disabled = false
+		$Area2D/CollisionShape2D.disabled = false
+		$HappyBulletFren.visible = true
 		GlobalManager.player.timer2 = 0
 		bullet_movement = bullet_speed * delta * bullet_direction
 		translate(bullet_movement.normalized() * bullet_speed)
@@ -54,7 +60,13 @@ func _physics_process(delta: float) -> void:
 	if charge_ready == true and Input.is_action_pressed("shoot"):
 		pass
 	if charge_ready == true and Input.is_action_just_released("shoot"):
-		bullet_direction = GlobalManager.player.aim_direction
+		if GlobalManager.player.aim_direction > Vector2(0,0) or GlobalManager.player.aim_direction < Vector2(0,0):
+			bullet_direction = GlobalManager.player.aim_direction
+		else:
+			if GlobalManager.player.current_direction == "Left":
+				bullet_direction = Vector2(-1,0)
+			if GlobalManager.player.current_direction == "Right":
+				bullet_direction = Vector2(1,0)
 		_shoot()
 	if charge_ready == false and Input.is_action_just_released("shoot"):
 		queue_free()
@@ -62,6 +74,7 @@ func _physics_process(delta: float) -> void:
 		
 
 func _shoot():
+	
 	GlobalManager.player.change_ammo_count(5)
 	print(GlobalManager.player.ammo_count)
 	$Timer.start()
