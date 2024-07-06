@@ -33,7 +33,7 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		GlobalManager.player.timer = 0
 		GlobalManager.player.is_charge_ready = false
-	if can_shoot and GlobalManager.player.ammo_count >= 5:
+	if can_shoot:
 		$CollisionShape2D.disabled = false
 		$Area2D/CollisionShape2D.disabled = false
 		$HappyBulletFren.visible = true
@@ -74,12 +74,12 @@ func _physics_process(delta: float) -> void:
 		
 
 func _shoot():
-	
-	GlobalManager.player.change_ammo_count(5)
-	print(GlobalManager.player.ammo_count)
+	if GlobalManager.player.ammo_count >= 5:
+		GlobalManager.player.change_ammo_count(5)
+		print(GlobalManager.player.ammo_count)
+		can_shoot = true
+		print("hooray")
 	$Timer.start()
-	can_shoot = true
-	print("hooray")
 
 func _on_timer_timeout():
 	print_debug("yippee")

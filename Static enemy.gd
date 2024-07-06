@@ -8,6 +8,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if health <= 0:
+		kill()
 	pass
 
 func _on_area_2d_body_entered(body):
@@ -17,9 +19,9 @@ func _on_area_2d_body_entered(body):
 
 
 func take_damage(value):
-	health -= value
-	if health <= 0:
-		kill()
+	if health > 0:
+		health -= value
+	
 
 func kill():
 	queue_free()
