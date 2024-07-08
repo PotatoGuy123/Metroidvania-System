@@ -1,5 +1,6 @@
 extends RayCast2D
 
+@onready var load_charge_bullets = load("res://Scenes/charge.tscn")
 
 @export var bullet_speed = 22
 var bullet_movement : Vector2 = Vector2()
@@ -89,8 +90,14 @@ func _physics_process(delta: float) -> void:
 		position = GlobalManager.player.get_child(4).get_child(0).global_position
 		
 	if Input.is_action_pressed("shoot"):
+		print("starting laser")
 		timer += delta
 		
+	if timer < threshold_time and Input.is_action_just_released("shoot"):
+		print("hi")
+		var get_bullets = load_charge_bullets.instantiate()
+		get_bullets.timer = 3
+		get_bullets.can_shoot = true
 		
 		
 		
@@ -100,6 +107,9 @@ func _physics_process(delta: float) -> void:
 		is_casting = true
 		shoot()
 		#GlobalManager.player.is_charge_ready = true
+		
+	
+		
 		
 	if is_casting == true:
 		timer2 += delta

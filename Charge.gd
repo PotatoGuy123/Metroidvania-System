@@ -12,6 +12,7 @@ var charge_ready = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("hi 2")
 	$CollisionShape2D.disabled = true
 	$Area2D/CollisionShape2D.disabled = true
 	$HappyBulletFren.visible = false
