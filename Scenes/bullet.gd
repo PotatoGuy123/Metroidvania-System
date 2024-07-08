@@ -25,10 +25,10 @@ func _physics_process(delta):
 
 func bullet_rotation(value):
 	#rotation = value
-	print(rotation)
+	pass
 
 func _on_timer_timeout():
-	print_debug("yippee")
+	
 	queue_free()
 
 
@@ -44,4 +44,4 @@ func _get_button_down(shoot):
 	pass
 
 func _on_timer_2_timeout():
-	print("hell")
+	pass

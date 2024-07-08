@@ -17,6 +17,8 @@ var charge_ready = false
 var is_casting: bool = false
 var is_shooting = false
 
+var cast_point = Vector2.ZERO
+
 @onready var casting_particles: GPUParticles2D = $CastingParticles2D
 @onready var collision_particles_2: GPUParticles2D = $CollisionParticles2D
 @onready var beam_particle_2d: GPUParticles2D = $BeamParticle2D
@@ -36,7 +38,7 @@ var is_shooting = false
 		#set_physics_process(is_casting)
 
 func _ready():
-	print("All i know is pain")
+	
 	is_casting = false
 	$Line2D.visible = false
 
@@ -47,31 +49,35 @@ func _process(delta):
 	if is_casting:	
 		if is_colliding():
 			var collision = get_collider()
-			#print(collision.body.name)
-			if collision.is_in_group("Enemy"):
-				if collision.health > 0:
-					collision.take_damage(0.1)
+			if collision != null:
+				if collision.is_in_group("Enemy"):
+					if collision.health > 0:
+						collision.take_damage(0.1)
 
 
 func _physics_process(delta: float) -> void:
 	rotation = GlobalManager.player.bullet_marker_parent.rotation
 	
-	var cast_point := target_position
+	
 	force_raycast_update()
 	
 	#bullet_movement = bullet_speed * delta * bullet_direction
 	#translate(bullet_movement.normalized() * bullet_speed)
 	if is_casting:
+		cast_point = target_position
 		collision_particles_2.emitting = is_colliding()
 	
 	if is_colliding() and is_casting:
 		cast_point = to_local(get_collision_point())
 		collision_particles_2.global_rotation = get_collision_normal().angle()
 		collision_particles_2.position = cast_point
+	
 	#$Line2D.points[0] = GlobalManager.player.position
 	$Line2D.points[1] = cast_point
 	beam_particle_2d.position = cast_point * 0.5
 	beam_particle_2d.process_material.emission_box_extents.x = cast_point.length() * 0.5
+	
+	print(cast_point)
 	
 	if can_shoot:
 		#bullet_movement = bullet_speed * delta * bullet_direction
@@ -79,7 +85,7 @@ func _physics_process(delta: float) -> void:
 		charge_ready = false
 		GlobalManager.player.has_shot = true
 	else:
-		print(GlobalManager.player.get_child(4).get_child(0))
+		
 		position = GlobalManager.player.get_child(4).get_child(0).global_position
 		
 	if Input.is_action_pressed("shoot"):
@@ -90,7 +96,7 @@ func _physics_process(delta: float) -> void:
 		
 	if timer >= threshold_time:
 		timer = 0
-		print("hold")
+		
 		is_casting = true
 		shoot()
 		#GlobalManager.player.is_charge_ready = true
@@ -112,6 +118,7 @@ func _physics_process(delta: float) -> void:
 		
 	
 func shoot():
+	await get_tree().process_frame 
 	$Line2D.visible = true
 	#can_shoot = true
 	#target_position = bullet_direction
@@ -128,7 +135,7 @@ func shoot():
 	
 func bullet_rotation(value):
 	rotation = value
-	print(rotation)
+	
 
 func check_direction(dir : Vector2):
 	bullet_direction = dir

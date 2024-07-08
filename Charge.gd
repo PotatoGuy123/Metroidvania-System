@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 		GlobalManager.player.has_shot = true
 		GlobalManager.player.action2_started = false
 	else:
-		print(GlobalManager.player.get_child(4).get_child(0))
+		
 		position = GlobalManager.player.get_child(4).get_child(0).global_position
 		
 	if Input.is_action_pressed("shoot"):
@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 		
 	if timer >= threshold_time:
 		timer = 0
-		print("hold")
+		
 		charge_ready=true
 		GlobalManager.player.is_charge_ready = true
 		GlobalManager.player.action2_started = true
@@ -76,13 +76,13 @@ func _physics_process(delta: float) -> void:
 func _shoot():
 	if GlobalManager.player.ammo_count >= 5:
 		GlobalManager.player.change_ammo_count(5)
-		print(GlobalManager.player.ammo_count)
+		
 		can_shoot = true
-		print("hooray")
+		
 	$Timer.start()
 
 func _on_timer_timeout():
-	print_debug("yippee")
+	
 	queue_free()
 
 func _on_body_entered(body):

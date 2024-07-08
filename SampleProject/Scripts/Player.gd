@@ -61,7 +61,7 @@ var controllerangle = Vector2(0,0)
 func _ready() -> void:
 	on_enter()
 	health = max_health
-	ammo_count = max_ammo_count
+	ammo_count = 200000
 	change_ammo_count(0)
 	GlobalManager.player = self
 
@@ -69,7 +69,7 @@ func _physics_process(delta: float) -> void:
 	#var xAxisRL = Input.get_joy_axis(0, 0)
 	#var yAxisUD = Input.get_joy_axis(0 ,1)
 	#controllerangle = Vector2(xAxisRL, yAxisUD).angle()
-	print(controllerangle)
+	
 	
 	#rotation = controllerangle
 	#print(rotation)
@@ -152,19 +152,19 @@ func _physics_process(delta: float) -> void:
 	if timer >= threshold_time and action_started:
 		action_started = false
 		timer = 0
-		print("hold")
+		
 		charge_shot()
 
 	if Input.is_action_just_released("shoot"):
 		if timer < threshold_time and action_started:
-			print("press")
+			
 			normal_shot()
 			action_started = false
 		timer = 0
 			
 	if Input.is_action_pressed("shoot") and has_shot == false and is_charge_ready == true and action2_started == true:
 		timer2 += delta
-		print("hi there")
+		
 	
 	if Input.is_action_just_released("shoot") and has_shot == false and is_charge_ready == true:
 		timer2 = 0
@@ -175,7 +175,7 @@ func _physics_process(delta: float) -> void:
 		action2_started = false
 		timer = 0
 		timer2 = 0
-		print("hold2")
+		
 		laser_shot()
 	
 	check_bullet_direction()
@@ -214,9 +214,8 @@ func normal_shot():
 		get_parent().add_child(get_bullets)
 		get_bullets.position = bullet_marker.global_position
 		#ammo_count= ammo_count-1
-		print (ammo_count)
-		print("normal shot")
 		
+
 func charge_shot():
 	if charge_unlocked == true:
 		if ammo_count > 0 :
@@ -230,8 +229,8 @@ func charge_shot():
 			get_bullets.position = bullet_marker.global_position
 			#ammo_count= ammo_count-5
 			#print(ammo_count)
-			print("starting charge")
 			
+
 func laser_shot():
 	if laser_unlocked == true:
 		laser_is_shooting = true
@@ -246,12 +245,12 @@ func laser_shot():
 			get_bullets.position = bullet_marker.global_position
 			#ammo_count= ammo_count-5
 			#print(ammo_count)
-			print("starting laser charge")
+			
 			
 func change_ammo_count(value):
 	ammo_count = ammo_count - value
 	update_ammo_text()
-	print(ammo_count)
+	
 	
 func melee():
 	pass
