@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var max_health = 100
 @export var health : int
 
+var shoot_charge = false
+
 @onready var load_bullets= load("res://Scenes/bullet.tscn")
 @onready var load_charge_bullets = load("res://Scenes/charge.tscn")
 @onready var load_laser = load("res://Scenes/laser.tscn")
@@ -218,7 +220,17 @@ func normal_shot():
 
 func charge_shot():
 	if charge_unlocked == true:
-		if ammo_count > 0 :
+		if shoot_charge == true:
+			var get_bullets = load_charge_bullets.instantiate()
+			get_bullets.bullet_rotation(controllerangle)
+			if current_direction == "Left":
+				get_bullets.check_direction(bullet_direction)
+			if current_direction == "Right":
+				get_bullets.check_direction(bullet_direction)
+			get_parent().add_child(get_bullets)
+			get_bullets.position = bullet_marker.global_position
+			get_bullets.can_shoot = true
+		elif ammo_count > 0 :
 			var get_bullets = load_charge_bullets.instantiate()
 			get_bullets.bullet_rotation(controllerangle)
 			if current_direction == "Left":

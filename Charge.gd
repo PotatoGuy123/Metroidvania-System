@@ -44,6 +44,7 @@ func _physics_process(delta: float) -> void:
 		charge_ready = false
 		GlobalManager.player.has_shot = true
 		GlobalManager.player.action2_started = false
+		GlobalManager.player.shoot_charge = false
 	else:
 		
 		position = GlobalManager.player.get_child(4).get_child(0).global_position

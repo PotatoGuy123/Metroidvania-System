@@ -93,11 +93,14 @@ func _physics_process(delta: float) -> void:
 		print("starting laser")
 		timer += delta
 		
-	if timer < threshold_time and Input.is_action_just_released("shoot"):
+	if timer < threshold_time and Input.is_action_just_released("shoot") and is_casting == false:
 		print("hi")
-		var get_bullets = load_charge_bullets.instantiate()
-		get_bullets.timer = 3
-		get_bullets.can_shoot = true
+		GlobalManager.player.shoot_charge = true
+		GlobalManager.player.charge_shot()
+		
+		#var get_bullets = load_charge_bullets.instantiate()
+		#get_bullets.timer = 3
+		#get_bullets.can_shoot = true
 		
 		
 		
