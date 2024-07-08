@@ -5,6 +5,8 @@ signal Ammo_change(value)
 
 var can_shoot : bool = false
 
+var damage = 30
+
 var threshold_time = 2
 var timer = 0
 var charge_ready = false
@@ -35,6 +37,7 @@ func _physics_process(delta: float) -> void:
 		GlobalManager.player.timer = 0
 		GlobalManager.player.is_charge_ready = false
 	if can_shoot:
+		print(damage)
 		$CollisionShape2D.disabled = false
 		$Area2D/CollisionShape2D.disabled = false
 		$HappyBulletFren.visible = true
@@ -93,7 +96,7 @@ func _on_body_entered(body):
 
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("Enemy"):
-		body.take_damage(30)
+		body.take_damage(damage)
 
 func _on_timer_2_timeout():
 	_shoot()

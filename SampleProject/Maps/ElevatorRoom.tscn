@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bivakijktfees"]
+[gd_scene load_steps=17 format=3 uid="uid://bivakijktfees"]
 
 [ext_resource type="TileSet" uid="uid://bwpcg2opya34n" path="res://SampleProject/Resources/Tileset.tres" id="1_o8cmo"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="2_blgo0"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://6y6fhuni1b3y" path="res://Scenes/ammo_pickup.tscn" id="11_15s8n"]
 [ext_resource type="PackedScene" uid="uid://lo6koo6gd48a" path="res://Scenes/health_pickup.tscn" id="12_0nrsq"]
 [ext_resource type="PackedScene" uid="uid://cop5hedmhb50a" path="res://Scenes/laser_orb.tscn" id="13_kh66u"]
+[ext_resource type="PackedScene" uid="uid://cxybuhr1iuq6g" path="res://Scenes/super_charge_orb.tscn" id="14_itbfu"]
 
 [sub_resource type="GDScript" id="GDScript_7vkwe"]
 script/source = "extends Line2D
@@ -98,3 +99,6 @@ position = Vector2(280, 296)
 
 [node name="Laser Orb" parent="." instance=ExtResource("13_kh66u")]
 position = Vector2(531, 295)
+
+[node name="Super charge orb" parent="." instance=ExtResource("14_itbfu")]
+position = Vector2(767, 305)

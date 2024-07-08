@@ -102,9 +102,13 @@ func _physics_process(delta: float) -> void:
 		#get_bullets.timer = 3
 		#get_bullets.can_shoot = true
 		
+	if timer >= threshold_time and Input.is_action_just_released("shoot") and is_casting == false:
+		print("hellop")
+		GlobalManager.player.shoot_charge = true
+		GlobalManager.player.shoot_super_charge = true
+		GlobalManager.player.charge_shot()
 		
-		
-	if timer >= threshold_time:
+	if timer >= threshold_time and Input.is_action_pressed("alt fire") and GlobalManager.player.laser_unlocked == true:
 		timer = 0
 		
 		is_casting = true
@@ -116,10 +120,15 @@ func _physics_process(delta: float) -> void:
 		
 	if is_casting == true:
 		timer2 += delta
+		if Input.is_action_just_released("alt fire"):
+			queue_free()
 		
 	if timer2 >= threshold_time2:
 		GlobalManager.player.change_ammo_count(1) 
 		timer2 = 0
+		
+	if Input.is_action_pressed("shoot") and GlobalManager.player.ammo_count > 0 and Input.is_action_just_released("alt fire"):
+		GlobalManager.player.charge_again = true
 		
 	if Input.is_action_just_released("shoot") or !GlobalManager.player.ammo_count > 0:
 		queue_free()

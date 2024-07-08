@@ -5,6 +5,8 @@ extends CharacterBody2D
 @export var health : int
 
 var shoot_charge = false
+var shoot_super_charge = false
+var charge_again = false
 
 @onready var load_bullets= load("res://Scenes/bullet.tscn")
 @onready var load_charge_bullets = load("res://Scenes/charge.tscn")
@@ -24,8 +26,10 @@ var laser_is_shooting = false
 
 @export var max_ammo_count = 25
 @export var ammo_count : int
+
 @export var charge_unlocked = false
 @export var laser_unlocked = false
+@export var super_charge_unlocked = false
 
 var threshold_time = 0.5
 var threshold_time2 = 1
@@ -68,6 +72,8 @@ func _ready() -> void:
 	GlobalManager.player = self
 
 func _physics_process(delta: float) -> void:
+	if charge_again ==  true:
+		charge_shot()
 	#var xAxisRL = Input.get_joy_axis(0, 0)
 	#var yAxisUD = Input.get_joy_axis(0 ,1)
 	#controllerangle = Vector2(xAxisRL, yAxisUD).angle()
@@ -230,6 +236,9 @@ func charge_shot():
 			get_parent().add_child(get_bullets)
 			get_bullets.position = bullet_marker.global_position
 			get_bullets.can_shoot = true
+			if shoot_super_charge == true:
+				print("ploo")
+				get_bullets.damage = 60
 		elif ammo_count > 0 :
 			var get_bullets = load_charge_bullets.instantiate()
 			get_bullets.bullet_rotation(controllerangle)
@@ -244,7 +253,7 @@ func charge_shot():
 			
 
 func laser_shot():
-	if laser_unlocked == true:
+	if super_charge_unlocked == true:
 		laser_is_shooting = true
 		if ammo_count > 0:
 			var get_bullets = load_laser.instantiate()

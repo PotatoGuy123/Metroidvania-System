@@ -101,7 +101,6 @@ z_index = 1
 script = ExtResource("1_ecbsx")
 ammo_count = 20000
 charge_unlocked = true
-laser_unlocked = true
 metadata/player = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
