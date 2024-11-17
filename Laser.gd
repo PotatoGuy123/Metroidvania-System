@@ -121,11 +121,6 @@ func _physics_process(delta: float) -> void:
 	if is_casting == true:
 		timer2 += delta
 		if Input.is_action_just_released("alt fire"):
-			GlobalManager.player.laser_is_shooting = false
-			GlobalManager.player.has_shot = false
-			GlobalManager.player.is_charge_ready = false
-			is_casting = false
-			is_shooting = false
 			queue_free()
 		
 	if timer2 >= threshold_time2:
