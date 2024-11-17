@@ -62,7 +62,7 @@ var can_jump : bool = true
 var controllerangle = Vector2(0,0)
 @export var deadzone = 0.3
 
-var counter : int = 1
+
 
 func _ready() -> void:
 	on_enter()
@@ -250,6 +250,7 @@ func charge_shot():
 			get_bullets.position = bullet_marker.global_position
 			#ammo_count= ammo_count-5
 			#print(ammo_count)
+			
 
 func laser_shot():
 	if super_charge_unlocked == true:
@@ -307,9 +308,3 @@ func _look_at_target_interpolated(weight:float) -> void:
 
 func _on_area_2d_body_entered(body):
 	pass # Replace with function body.
-
-func combo(animation):
-	if animation in ["sword", "fist"]:
-		return "_" + str(counter)
-	else:
-		return ""
