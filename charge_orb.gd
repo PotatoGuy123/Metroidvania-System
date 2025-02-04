@@ -16,4 +16,3 @@ func collect(body: Node2D) -> void:
 	MetSys.store_object(self)
 	# Storing object does not free it automatically.
 	queue_free()
-
