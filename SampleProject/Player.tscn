@@ -115,25 +115,3 @@ vframes = 2
 libraries = {
 "": SubResource("AnimationLibrary_rqeoy")
 }
-<<<<<<< Updated upstream
-=======
-
-[node name="Gun" type="Node2D" parent="."]
-position = Vector2(20, 13)
-
-[node name="Bullet_Exit_Parent" type="Marker2D" parent="."]
-position = Vector2(0, 10)
-
-[node name="LeCanon" type="Sprite2D" parent="Bullet_Exit_Parent"]
-texture_filter = 1
-position = Vector2(28, 0)
-scale = Vector2(1.875, 1.875)
-texture = ExtResource("3_7e0c3")
-
-[node name="Bullet_Exit_Position" type="Marker2D" parent="Bullet_Exit_Parent"]
-position = Vector2(27, 0)
-
-[node name="CoyoteTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
->>>>>>> Stashed changes
