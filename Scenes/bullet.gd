@@ -13,10 +13,10 @@ var bullet_life = 0
 func _ready():
 	rotation = GlobalManager.player.bullet_marker_parent.rotation
 	GlobalManager.player.change_ammo_count(1)
-	$Timer2.start()
 
 func check_direction(dir : Vector2):
 	bullet_direction = dir
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	#bullet_direction = GlobalManager.player.aim_direction
@@ -41,7 +41,4 @@ func _on_area_2d_body_entered(body):
 		body.take_damage(10)
 
 func _get_button_down(shoot):
-	pass
-
-func _on_timer_2_timeout():
 	pass

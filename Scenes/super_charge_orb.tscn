@@ -13,7 +13,7 @@ script = ExtResource("2_g0etg")
 shape = SubResource("RectangleShape2D_v5e3t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 0, 1)
+modulate = Color(0.524798, 0.429763, 0.298734, 1)
 texture = ExtResource("2_dhyjf")
 
 [connection signal="body_entered" from="." to="." method="collect"]

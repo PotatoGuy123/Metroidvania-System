@@ -175,4 +175,3 @@ func appear() -> void:
 #func disapear() -> void:
 	#var tween = create_tween()
 	#tween.tween_property($Line2D, "width", 0, 0.1)
-

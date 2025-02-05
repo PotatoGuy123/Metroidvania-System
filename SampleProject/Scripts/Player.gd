@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var max_health = 100
 @export var health : int
 
-var shoot_charge = false
+var can_charge = true
 var shoot_super_charge = false
 var charge_again = false
 
@@ -52,17 +52,21 @@ var abilities: Array[StringName]
 var double_jump: bool
 var prev_on_floor: bool
 
-var aim_direction : Vector2
+var charge_amount : float
 
 var can_jump : bool = true
 
+#ui elements
 @onready var health_text : Label = %HealthText
 @onready var ammo_text : Label = %AmmoText
 
+
+#handles aiming
 var controllerangle = Vector2(0,0)
 @export var deadzone = 0.3
+var aim_direction : Vector2
 
-
+var current_charge_bullet
 
 func _ready() -> void:
 	on_enter()
@@ -70,10 +74,9 @@ func _ready() -> void:
 	ammo_count = 200000
 	change_ammo_count(0)
 	GlobalManager.player = self
+	charge_unlocked = false
 
 func _physics_process(delta: float) -> void:
-	if charge_again ==  true:
-		charge_shot()
 	#var xAxisRL = Input.get_joy_axis(0, 0)
 	#var yAxisUD = Input.get_joy_axis(0 ,1)
 	#controllerangle = Vector2(xAxisRL, yAxisUD).angle()
@@ -148,46 +151,65 @@ func _physics_process(delta: float) -> void:
 		current_direction = "Left"
 	if Input.is_action_just_pressed("die"):
 		take_damage(damage)
+	
+	if !charge_unlocked:
+		process_shoot_normal()
+	else:
+		process_charge_shot(delta)
+		print("i worked here")
+	
 	#if Input.is_action_just_pressed("shoot"):
 		#shoot()
-	if Input.is_action_just_pressed("shoot"):
-		action_started = true
-		has_shot = false
-		
-	if Input.is_action_pressed("shoot") and action_started:
-		timer += delta
-		
-	if timer >= threshold_time and action_started:
-		action_started = false
-		timer = 0
-		
-		charge_shot()
+	#if Input.is_action_just_pressed("shoot"):
+		#action_started = true
+		#has_shot = false
+		#
+	#if Input.is_action_pressed("shoot") and action_started:
+		#timer += delta
+		#
+	#if timer >= threshold_time and action_started:
+		#action_started = false
+		#timer = 0
+		#
+		#charge_shot()
+#
+	#if Input.is_action_just_released("shoot"):
+		#if timer < threshold_time and action_started:
+			#
+			#normal_shot()
+			#action_started = false
+		#timer = 0
+			#
+	#if Input.is_action_pressed("shoot") and has_shot == false and is_charge_ready == true and action2_started == true:
+		#timer2 += delta
+		#
+	#
+	#if Input.is_action_just_released("shoot") and has_shot == false and is_charge_ready == true:
+		#timer2 = 0
+		#timer = 0
+	#
+	#if timer2 >= threshold_time2 and has_shot == false and action2_started == true:
+		#has_shot = true
+		#action2_started = false
+		#timer = 0
+		#timer2 = 0
+		#
+		#laser_shot()
+	#
+	#check_bullet_direction()
 
-	if Input.is_action_just_released("shoot"):
-		if timer < threshold_time and action_started:
-			
-			normal_shot()
-			action_started = false
-		timer = 0
-			
-	if Input.is_action_pressed("shoot") and has_shot == false and is_charge_ready == true and action2_started == true:
-		timer2 += delta
-		
-	
-	if Input.is_action_just_released("shoot") and has_shot == false and is_charge_ready == true:
-		timer2 = 0
-		timer = 0
-	
-	if timer2 >= threshold_time2 and has_shot == false and action2_started == true:
-		has_shot = true
-		action2_started = false
-		timer = 0
-		timer2 = 0
-		
-		laser_shot()
-	
-	check_bullet_direction()
-	
+func process_shoot_normal():
+	if Input.is_action_just_pressed("shoot"):
+		normal_shot()
+		print("maybe ehre")
+
+func process_charge_shot(delta: float):
+	if Input.is_action_pressed("shoot") and can_charge:
+		charge_amount += delta
+		charging_shot()
+	elif Input.is_action_just_released("shoot") and current_charge_bullet != null:
+		can_charge = false
+		current_charge_bullet._shoot()
 
 func check_current_aim():
 	var velocity = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -224,33 +246,23 @@ func normal_shot():
 		#ammo_count= ammo_count-1
 		
 
-func charge_shot():
+func charging_shot():
 	if charge_unlocked == true:
-		if shoot_charge == true:
-			var get_bullets = load_charge_bullets.instantiate()
-			get_bullets.bullet_rotation(controllerangle)
-			if current_direction == "Left":
-				get_bullets.check_direction(bullet_direction)
-			if current_direction == "Right":
-				get_bullets.check_direction(bullet_direction)
-			get_parent().add_child(get_bullets)
-			get_bullets.position = bullet_marker.global_position
-			get_bullets.can_shoot = true
-			if shoot_super_charge == true:
-				print("ploo")
-				get_bullets.damage = 60
-		elif ammo_count > 0 :
-			var get_bullets = load_charge_bullets.instantiate()
-			get_bullets.bullet_rotation(controllerangle)
-			if current_direction == "Left":
-				get_bullets.check_direction(bullet_direction)
-			if current_direction == "Right":
-				get_bullets.check_direction(bullet_direction)
-			get_parent().add_child(get_bullets)
-			get_bullets.position = bullet_marker.global_position
-			#ammo_count= ammo_count-5
-			#print(ammo_count)
+		if can_charge == true:
+			if current_charge_bullet == null:
+				var get_bullets = load_charge_bullets.instantiate()
+				current_charge_bullet = get_bullets
+				get_parent().add_child(get_bullets)
 			
+			print("charging...")
+			clampf(charge_amount, 0, 4)
+			current_charge_bullet.charge_amount = charge_amount
+			current_charge_bullet.global_position = bullet_marker.global_position
+			current_charge_bullet.bullet_rotation(controllerangle)
+			if current_direction == "Left":
+				current_charge_bullet.check_direction(bullet_direction)
+			if current_direction == "Right":
+				current_charge_bullet.check_direction(bullet_direction)
 
 func laser_shot():
 	if super_charge_unlocked == true:
@@ -266,8 +278,8 @@ func laser_shot():
 			get_bullets.position = bullet_marker.global_position
 			#ammo_count= ammo_count-5
 			#print(ammo_count)
-			
-			
+
+
 func change_ammo_count(value):
 	ammo_count = ammo_count - value
 	update_ammo_text()
