@@ -101,6 +101,9 @@ z_index = 1
 script = ExtResource("1_ecbsx")
 ammo_count = 20000
 charge_unlocked = true
+SPEED = 400.0
+JUMP_VELOCITY = -30
+gravity = 25
 metadata/player = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
@@ -133,3 +136,11 @@ texture = ExtResource("3_7e0c3")
 
 [node name="Bullet_Exit_Position" type="Marker2D" parent="Bullet_Exit_Parent"]
 position = Vector2(27, 0)
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

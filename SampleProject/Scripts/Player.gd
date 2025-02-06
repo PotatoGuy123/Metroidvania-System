@@ -39,9 +39,10 @@ var action_started = false
 var action2_started = false
 
 @export var SPEED = 300.0
-@export var JUMP_VELOCITY = -450.0
+@export var JUMP_VELOCITY = 700
+@export var JUMP_TERMINATION_MULTIPLIER = 2
 var current_direction = "Idle"
-var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
+@export var gravity: int = 2
 var animation: String
 
 var reset_position: Vector2
@@ -62,7 +63,13 @@ var can_jump : bool = true
 var controllerangle = Vector2(0,0)
 @export var deadzone = 0.3
 
+@onready var coyote_timer = $CoyoteTimer
 
+var has_jumped = false
+
+@onready var jump_buffer_timer = $JumpBufferTimer
+
+var store_jump = false
 
 func _ready() -> void:
 	on_enter()
@@ -72,6 +79,7 @@ func _ready() -> void:
 	GlobalManager.player = self
 
 func _physics_process(delta: float) -> void:
+	var input_vector = get_input_vector()
 	if charge_again ==  true:
 		charge_shot()
 	#var xAxisRL = Input.get_joy_axis(0, 0)
@@ -88,20 +96,6 @@ func _physics_process(delta: float) -> void:
 	if event:
 		return
 	
-	if not is_on_floor():
-		velocity.y += gravity * delta
-	elif not prev_on_floor and &"double_jump" in abilities:
-		# Some simple double jump implementation.
-		double_jump = true
-	
-	if Input.is_action_just_pressed("jump") and (is_on_floor() or double_jump) and can_jump:
-		if not is_on_floor():
-			double_jump = false
-		
-		if Input.is_action_pressed("down"):
-			position.y += 8
-		else:
-			velocity.y = JUMP_VELOCITY
 	var direction := Input.get_axis("left", "right")
 	var vertical_direction := Input.get_axis("up", "down")
 	
@@ -112,19 +106,73 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	
+
+	
+	if is_on_floor():
+		has_jumped = false
+		
+	#if is_on_floor() and jump_buffer_timer > 0:
+		#store_jump = true
+	
+	if Input.is_action_just_pressed("jump") and (is_on_floor() or !coyote_timer.is_stopped()) and has_jumped == false:
+		jump()
+	if Input.is_action_just_pressed("jump") and !is_on_floor():
+		jump_buffer_timer.start()
+		store_jump = true
+		print("balling")
+
+	if is_on_floor():
+		if !jump_buffer_timer.is_stopped() and store_jump == true:
+			print("baller")	
+			jump()
+			store_jump = false
+	if Input.is_action_just_released("jump") and velocity.y < 0:
+		print("hell")
+		velocity.y *= 0.5
+	if !is_on_floor():
+		velocity.y += gravity
+	#if velocity.y < 0:
+		#velocity.y += gravity
+	#else:
+		#velocity.y += gravity * JUMP_TERMINATION_MULTIPLIER
+	#elif velocity.y > 0:
+		#velocity.y += gravity * JUMP_TERMINATION_MULTIPLIER
+	#elif velocity.y == 0 and !is_on_floor():
+		#velocity.y += gravity * JUMP_TERMINATION_MULTIPLIER
+		#velocity = move_and_slide(velocity, Vector2.UP)
+	
+	#if input_vector.y < 0 and (is_on_floor() or !coyote_timer.is_stopped()) and has_jumped == false:
+		#velocity.y = input_vector.y * JUMP_VELOCITY
+		
+	#if velocity.y < 0 and !Input.is_action_just_pressed("Jump"):
+		#velocity.y += gravity * JUMP_TERMINATION_MULTIPLIER * delta
+		#has_jumped = true
+	#else:
+		#velocity.y += gravity * JUMP_TERMINATION_MULTIPLIER * delta
 	
 	
-	prev_on_floor = is_on_floor()
-	
+	#if Input.is_action_just_pressed("jump") and (is_on_floor() or double_jump or not coyote_timer.is_stopped()) and can_jump:
+		#if not is_on_floor():
+			#double_jump = false
+		
+		#if Input.is_action_pressed("down"):
+			#position.y += 8
+		#else:
+			#velocity.y = JUMP_VELOCITY
 	var temp_vel_x : float = velocity.x
 	
-	if Input.is_action_pressed("Aim") && is_on_floor():
+	if Input.is_action_pressed("Aim"):
+		#&& is_on_floor()
 		velocity.x = 0
 		can_jump = false
 	elif Input.is_action_just_released("Aim"):
 		can_jump = true
+	prev_on_floor = is_on_floor()
 	
 	move_and_slide()
+	
+	if not is_on_floor() and prev_on_floor:
+		coyote_timer.start()
 	
 	velocity.x = temp_vel_x
 	
@@ -187,6 +235,21 @@ func _physics_process(delta: float) -> void:
 		laser_shot()
 	
 	check_bullet_direction()
+	
+func jump():
+	jump_buffer_timer.stop()
+	print("pain")
+	store_jump = false
+	#velocity.y = -1
+	var input_vector = get_input_vector()
+	velocity.y = -700
+	has_jumped = true
+	
+func get_input_vector():
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	input_vector.y = -1  # Always set this for jumping
+	return input_vector
 	
 
 func check_current_aim():
@@ -283,6 +346,7 @@ func kill():
 	Game.get_singleton().load_room(MetSys.get_current_room_name())
 
 func on_enter():
+
 	# Position for kill system. Assigned when entering new room (see Game.gd).
 	reset_position = position
 	update_health_text()
@@ -308,3 +372,8 @@ func _look_at_target_interpolated(weight:float) -> void:
 
 func _on_area_2d_body_entered(body):
 	pass # Replace with function body.
+
+
+func _on_jump_buffer_timer_timeout() -> void:
+	if store_jump == true:
+		jump()
